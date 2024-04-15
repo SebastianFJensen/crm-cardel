@@ -1,0 +1,233 @@
+@media screen and (max-width: 1366px){
+	.container1{
+    display: block;
+    width: 100%;
+    position: relative;
+  }
+  .container1.card.card-header{
+    font-size: 28px;
+  }
+  .container1 .grid{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    padding-inline-start:0px;
+    height: 100px;
+  }
+  .container1 .grid li {
+    overflow: hidden;
+    padding: 16px 32px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+  .buttons{
+    display: flex;
+    width: 20%;
+    position: relative;
+    padding-top: 8px;
+  }
+  .buttons .btn.btn-secondary{
+    font-size: 8px;
+  }
+  .buttons .btn.btn-danger{
+    font-size: 8px;
+  }
+  .container2{
+    display: block;
+    width: 45%;
+    float: left;
+    position: relative;
+    font-size: 12px;
+  }
+  .container2 .btn.btn-secondary{
+    font-size: 8px;
+  }
+  .container2 .card-text{
+    font-size: 10px;
+  }
+  .container2 .alert.alert-warning{
+    font-size: 8px;
+  }
+  .container3{
+    display: block;
+    width: 45%;
+    float: right;
+    position: relative;
+    font-size: 12px;
+    margin-left: 6em;
+    margin-bottom: 2em;
+  }
+  .container3 .btn.btn-secondary{
+    position: relative;
+    font-size: 8px;
+  }
+  .container3 .folder-tree-wrapper{
+    width: 72%;
+  }
+  .table-container{
+    width: 100%;
+    font-size: 8px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.table-info{
+		font-size: 8px;
+	}
+  .arrow-down {
+    border: solid white;
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 1px;
+    margin-right:5px;
+    margin-left:5px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg)
+  }
+  .navbar {
+    font-size: 12px;
+    width: 100%;
+  }
+  .search {
+    font-size: 12px;
+  }
+
+    * { margin: 0; padding: 0; outline: none; box-sizing: border-box; vertical-align: top;}
+.folder-tree-wrapper { background-color: #fff; min-height: 170px; padding: 20px; border-radius: 2%; box-shadow: 1px 1px 1px 0 rgba(0,0,0,.11); }
+.folder-tree { list-style: none; cursor: pointer; padding-left: 20px; }
+.folder-tree li { margin-bottom: 10px; font-size: 10px; transition: all .4s ease; position: relative; }
+.folder-tree li:hover {  }
+.folder-tree li i { color: rgb(242, 176, 53); }
+.folder-tree li ul { padding-left: 10px; padding-top: 8px; }
+.folder-tree ul { display: none; position: relative; }
+.folder-tree ul:before { position: absolute; content: ''; left: -10px; top: 0; width: 2px; height: 100%; background-color: transparent; border-left: dashed 1px #c2c2c2; border-bottom: dashed 1px #c2c2c2; }
+.folder-tree li ul li { display: block; margin-bottom: 8px; }
+.folder-tree .arrow { position: absolute; top: 5.5px; left: -20px; width: 8px; height: 8px; transition: all .4s ease; transform: rotate(-90deg); }
+.folder-tree .arrow i { color: #595959; transition: all .4s ease; }
+.folder-tree .arrow:hover i { color: #292929; }
+.folder-tree li.expanded > ul { display: block; }
+.folder-tree li.expanded > .arrow { transform: rotate(0deg);}
+}
+
+@media screen and (min-width: 1370px){
+  .container1{
+    display: block;
+    width: 100%;
+    position: relative;
+  }
+  .container1.card.card-header{
+    font-size: 40px;
+  }
+  .container1 .grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(5, auto);
+    grid-auto-flow: column;
+    padding-inline-start:0px;
+    height: 180px;
+  }
+  .container1 .grid li {
+    overflow: hidden;
+    padding: 16px 32px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .buttons{
+    display: flex;
+    width: 20%;
+    position: relative;
+    padding-top: 8px;
+  }
+  .buttons .btn.btn-secondary{
+    font-size: 10px;
+  }
+  .buttons .btn.btn-danger{
+    font-size: 10px;
+  }
+  .container2{
+    display: block;
+    width: 48%;
+    float: left;
+    position: relative;
+    font-size: 12px;
+  }
+  .container2 .btn.btn-secondary{
+    font-size: 10px;
+  }
+  .container2 .card-text{
+    font-size: 12px;
+  }
+  .container2 .alert.alert-warning{
+    font-size: 12px;
+  }
+  .container3{
+    display: block;
+    width: 46%;
+    float: right;
+    position: relative;
+    font-size: 10px;
+    margin-left: 6em;
+    margin-bottom: 2em;
+  }
+  .container3 .folder-tree-wrapper{
+    width: 72%;
+  }
+  .container3 .btn.btn-secondary{
+    position: relative;
+    font-size: 10px;
+  }
+  .button1{
+    display: flex;
+    width: 70%;
+    position: relative;
+    margin-left: 92px;
+  }
+  .button1 .btn.btn-primary{
+    font-size: 10px;
+  }
+  .table-container{
+    width:120%;
+    font-size: 12px;
+    margin-left: -130px;
+    margin-right: auto;
+    table-layout: fixed;
+  }
+  .card-header1{
+    margin-left: -130px;
+  }
+  .arrow-down {
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-right:5px;
+    margin-left:5px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+  .navbar {
+    font-size: 12px;
+  }
+  }
+
+    * { margin: 0; padding: 0; outline: none; box-sizing: border-box; vertical-align: top;}
+.folder-tree-wrapper {position: absolute; background-color: #fff; min-height: 240px; padding: 20px; border-radius: 2%; margin-right:80px }
+.folder-tree { list-style: none; cursor: pointer; padding-left: 20px; }
+.folder-tree li { margin-bottom: 10px; font-size: 13px; transition: all .4s ease; position: relative; }
+.folder-tree li:hover {  }
+.folder-tree li i { color: rgb(242, 176, 53); }
+.folder-tree li ul { padding-left: 10px; padding-top: 8px; }
+.folder-tree ul { display: none; position: relative; }
+.folder-tree ul:before { position: absolute; content: ''; left: -10px; top: 0; width: 2px; height: 100%; background-color: transparent; border-left: dashed 1px #c2c2c2; border-bottom: dashed 1px #c2c2c2; }
+.folder-tree li ul li { display: block; margin-bottom: 8px; }
+.folder-tree .arrow { position: absolute; top: 5.5px; left: -20px; width: 8px; height: 8px; transition: all .4s ease; transform: rotate(-90deg); }
+.folder-tree .arrow i { color: #595959; transition: all .4s ease; }
+.folder-tree .arrow:hover i { color: #292929; }
+.folder-tree li.expanded > ul { display: block; }
+.folder-tree li.expanded > .arrow { transform: rotate(0deg); }
+}
+
+
+

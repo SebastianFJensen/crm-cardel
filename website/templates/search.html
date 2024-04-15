@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Søgeresultater</h2>
+    <ul>
+        {% for record in records %}
+            <li>
+                <h3><a href="{% url 'Record' record.id %}">{{ record.Adresse }}</h3>
+            </li>
+        {% empty %}
+            <li>Ingen resultater fundet</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

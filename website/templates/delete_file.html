@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Delete file</h2>
+
+<form method="post" action="{% url 'delete_file' pk=file.pk %}">
+	{% csrf_token %}
+	<p>Er du sikker på at du vil slette filen?</p>
+	<button type="submit" class="btn btn-danger">Slet</button>
+	<a href="{% url 'open_folder' pk=file.folder.pk %}" class="btn btn-secondary">Annuller</a>
+</form>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Rediger kommentar</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Gem ændringer</button>
+    <button class="btn btn-secondary">Gem</button>
+  </form>
+{% endblock %}

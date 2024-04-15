@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <h2>{{ record.name }}</h2>
+ <p>{{ record.description }}</p>
+
+ <h3>Folder structure:</h3>
+ <ul>
+    {% for subfolder_name in subfolder_names %}
+      <li><a href="{{ folder_path }}/{{ subfolder_name }}">{{ subfolder_name }}</a></li>
+    {% endfor %}
+ </ul>
+{% endblock %}

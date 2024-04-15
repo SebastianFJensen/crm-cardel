@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+<meta name="viewport" content="width=device-width; initial-scale=1.0">
+{% load static %}
+<link rel="stylesheet" type='text/css' href="{% static 'style.css' %}">
+{% block content %}
+<!DOCTYPE html>
+<html>
+<title>Forside</title>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://www.jqueryscript.net/demo/Excel-like-Bootstrap-Table-Sorting-Filtering-Plugin/excel-bootstrap-table-filter-style.css">
+<script src="http://192.168.87.20/static/excel-bootstrap-table-filter-bundle.js"></script>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+
+<br/> 
+<div class="card-header1"><h1>Portfølje<h1></div>
+
+<br/>
+<body>
+  <div class="table-container">
+    <table id = "table" table class="table table-striped table-hover table-bordered">
+      <thead class="table" style="background-color: #102B25;">
+        <thead>
+          <tr class="table-info">
+            <th scope="col">Adresse</th>
+            <th scope="col">By</th>
+            <th scope="col">Kommune</th>
+            <th scope="col">Postnummer</th>
+            <th scope="col">Region</th>
+            <th scope="col">Kontaktperson</th>
+            <th scope="col">m2</th>
+            <th scope="col">Lead</th>
+            <th scope="col">Status på aftale</th>
+            <th scope="col">Forfaldsdato</th>
+          </tr>
+        </thead>
+        <div class="tbody">
+        <tbody>
+          {% for record in records %}
+          {% if record.Status == 'Lukket aftale' %}
+          <tr>
+            <td><a href="{% url 'Record' record.id %}">{{ record.Adresse }}</td>
+            <td>{{ record.By }}</td>
+            <td>{{ record.Kommune }}</td>
+            <td>{{ record.Postnummer }}</td>
+            <td>{{ record.Region }}</td>
+            <td>{{ record.Kontaktperson }}</td>
+            <td>{{ record.m2 }}</td>
+            <td>{{ record.Lead }}</td>
+            <td>{{ record.Lukket_aftale_Status }}</td>
+            <td>{{ record.Forfaldsdato|date:"Y-m-d" }}</td>
+          </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </table>
+      </div>
+    </div>
+    <script>     
+      $(function () {
+        $('#table').excelTableFilter();
+      });
+    </script>
+    <style>
+    .table-info th {
+        background-color: #102B25;
+        color: white;
+    }
+    .dropdown-filter-content {
+    display: none;
+    position: absolute;
+    background-color: grey;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding-bottom:5px;
+    padding-top:5px;
+    padding-right:5px;
+    padding-left:5px;
+  }
+  .arrow-down {
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-right:5px;
+    margin-left:5px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    vertical-align: middle;
+}
+</style>
+
+</body>
+</html>
+
+
+{% else %}
+</div>
+
+<br/> 
+<h1>Login</h1>
+
+<br/> 
+<form method="POST" action = "{%url 'home' %}">
+	{% csrf_token %}
+<form>
+  <div class="mb-3">
+    <input type="text" class="form-control" name= "username", placeholder ="Brugernavn" required>
+  </div>
+  <div class="mb-3">
+    <input type="password" class="form-control" name= "password", placeholder="Password" required>
+  </div>
+  <button type="submit" class="btn btn-secondary">Log ind</button>
+</form>
+
+
+{% endif%}
+
+{% endblock %}

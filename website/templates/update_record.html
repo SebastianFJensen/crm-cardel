@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<div class="col-md-6 offset-md-3">
+<br/>
+<h1>Opdater sag</h1>
+<br/>
+
+<form method="POST">
+	{% csrf_token %}
+
+	{{ form|crispy }}
+
+<script>
+  $(function() {
+  $.datepicker.setDefaults($.datepicker.regional['da']);
+  $('.datepicker').datepicker({
+    dateFormat: 'yy-mm-dd'
+  });
+  $( "#id_Forfaldsdato" ).datepicker({
+  	dateFormat: 'yy-mm-dd',
+  	monthNames: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
+  	monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+  	dayNamesMin: ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
+  	changeYear: true,
+    changeMonth: true
+  });
+  });
+</script>
+<script>
+  $(function() {
+  $.datepicker.setDefaults($.datepicker.regional['da']);
+  $('.datepicker').datepicker({
+    dateFormat: 'yy-mm-dd'
+  });
+  $( "#id_Opfølgningsdato" ).datepicker({
+  	dateFormat: 'yy-mm-dd',
+  	monthNames: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
+  	monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+  	dayNamesMin: ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
+  	changeYear: true,
+    changeMonth: true
+  });
+  });
+</script>
+
+<script>
+// Get the date input field
+const dateInput = document.querySelector('input[name="Forfaldsdato"]');
+
+// Add an event listener for the form submission
+document.querySelector('form').addEventListener('submit', function(event) {
+  // Check if the date format is correct
+  if (!/^\d{2}-\d{2}-\d{4}$/.test(dateInput.value)) {
+    // Display an error message
+    alert('Datoformat skal være dd-mm-yyyy');
+    // Prevent the form from being submitted
+    event.preventDefault();
+  }
+});
+
+// Add an event listener for the date input field blur event
+dateInput.addEventListener('blur', function() {
+  // Check if the date format is correct
+  if (!/^\d{2}-\d{2}-\d{4}$/.test(dateInput.value)) {
+    // Display an error message
+    dateInput.setCustomValidity('Datoformat skal være dd-mm-yyyy');
+  } else {
+    // Clear the error message
+    dateInput.setCustomValidity('');
+  }
+});
+</script>
+
+<br/>
+  <button type="submit" class="btn btn-secondary">Opdater</button>
+
+</form>
+
+
+</div>
+
+{% endblock %}
