@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 import uuid
 import os
 import unicodedata
+from datetime import datetime
 
 
 class Record(models.Model):
@@ -21,6 +22,7 @@ class Record(models.Model):
     Typen = [
         ('Vælg', 'Vælg'),
         ('Lead', 'LEAD'),
+        ('Kontakt etableret', 'KONTAKT ETABLERET'),
         ('Møde booket', 'MØDE BOOKET'),
         ('Møde afholdt', 'MØDE AFHOLDT'),
         ('Bud sendt', 'BUD SENDT'),
@@ -46,22 +48,22 @@ class Record(models.Model):
     ('Møde aflyst', 'Møde aflyst'),
     ]
     created_at = models.DateTimeField(auto_now_add=True)
-    BFE_Nummer = models.CharField(max_length=20)
-    Adresse = models.CharField(max_length=60)
-    Postnummer = models.CharField(max_length=4)
+    BFE_Nummer = models.CharField(max_length=20, null=True, unique=True)
+    Adresse = models.CharField(max_length=60, null=True)
+    Postnummer = models.CharField(max_length=4, null=True)
     By = models.CharField(max_length=80, blank=True)
-    Kommune = models.CharField(max_length=20)
-    Region = models.CharField(max_length=20)
-    Kontaktperson = models.CharField(max_length=60)
-    Mail = models.CharField(max_length=60)
-    Telefonnummer = models.CharField(max_length=20)
-    m2 = models.CharField(max_length=20)
-    Kommuneplan = models.CharField(max_length=20)
-    Lokalplan = models.CharField(max_length=20)
-    Formaal = models.CharField(max_length=50)
+    Kommune = models.CharField(max_length=20, null=True)
+    Region = models.CharField(max_length=20, null=True)
+    Kontaktperson = models.CharField(max_length=60, null=True)
+    Mail = models.CharField(max_length=60, blank=True, null=True)
+    Telefonnummer = models.CharField(max_length=20, blank=True, null=True)
+    m2 = models.CharField(max_length=20, null=True, blank=True)
+    Kommuneplan = models.CharField(max_length=20, null=True, blank=True)
+    Lokalplan = models.CharField(max_length=20, null=True, blank=True)
+    Formaal = models.CharField(max_length=50, null=True, blank=True)
     Status = models.CharField(max_length=25, choices=Typen, default='Vælg')
-    Lukket_aftale_Status = models.CharField(max_length=30, choices=Lukket_aftale_Status, default='Vælg')
-    Moedestatus = models.CharField(max_length=30, choices=Moedestatus, blank=True)
+    Lukket_aftale_Status = models.CharField(max_length=30, choices=Lukket_aftale_Status, default='Vælg', null=True, blank=True)
+    Moedestatus = models.CharField(max_length=30, choices=Moedestatus, null=True, blank=True)
     Lead = models.CharField(max_length=10, choices=Ansvarlig, default='Vælg')
     Forfaldsdato = models.DateField(null=True, blank=True)
     Opfølgningsdato = models.DateField(null=True, blank=True)
@@ -89,11 +91,13 @@ class RecordResource(resources.ModelResource):
         use_bulk = True
 
 def get_file_location(instance, filename):
-    return f"{instance.folder.record.id}/{unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore').decode()}"
+    now = datetime.now()
+    date_str = now.strftime('%Y%m%d')
+    return f"{instance.folder.record.id}/{unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore').decode()}/{date_str}"
 
 class Folder(models.Model):
     record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='folders')
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=180)
     folder_type = models.CharField(max_length=20)
 
     def __str__(self):
@@ -108,7 +112,7 @@ def create_folder(sender, instance, created, **kwargs):
 
 class File(models.Model):
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, related_name='allfiles')
-    files = models.FileField(upload_to=get_file_location)
+    files = models.FileField(upload_to=get_file_location, max_length=500)
 
     def __str__(self):
         return f"{self.files}"
