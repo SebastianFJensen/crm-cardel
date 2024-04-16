@@ -114,7 +114,7 @@
     <div class="card-body">
       <div class="card-title">{{ comment.user }}</div>
       <p class="card-text">{{ comment.created_on }}</p>
-      <p class="card-text">{{ comment.body }}</p>
+      <p class="card-text">{{ comment.body|linebreaks }}</p>
       {% if user == comment.user %}
         <a href="{% url 'edit_comment' customer_record.id comment.id %}" class="btn btn-secondary btn-sm" style="margin-right: 5px;">Rediger kommentar</a>
       {% endif %}
@@ -146,7 +146,7 @@
 					<div class="arrow"><i class="fa fa-angle-down"></i></div>
 					{% for file in folder.allfiles.all %}
 					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.files.url}}">{{ file }}</a></li>
+						<li><i class="folderlist"></i>	<a href="{{file.files.url}}" target="_blank">{{ file }}</a></li>
 					</ul>
 					{% endfor %}
 			{% endif %}
@@ -157,7 +157,7 @@
 					<div class="arrow"><i class="fa fa-angle-down"></i></div>
 					{% for file in folder.allfiles.all %}
 					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.files.url}}">{{ file }}</a></li>
+						<li><i class="folderlist"></i>	<a href="{{file.files.url}}" target="_blank">{{ file }}</a></li>
 					</ul>
 					{% endfor %}
 			{% endif %}
@@ -168,7 +168,7 @@
 					<div class="arrow"><i class="fa fa-angle-down"></i></div>
 					{% for file in folder.allfiles.all %}
 					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.files.url}}">{{ file }}</a></li>
+						<li><i class="folderlist"></i>	<a href="{{file.files.url}}" target="_blank">{{ file }}</a></li>
 					</ul>
 					{% endfor %}
 			{% endif %}
@@ -179,7 +179,7 @@
 					<div class="arrow"><i class="fa fa-angle-down"></i></div>
 					{% for file in folder.allfiles.all %}
 					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.files.url}}">{{ file }}</a></li>
+						<li><i class="folderlist"></i>	<a href="{{file.files.url}}" target="_blank">{{ file }}</a></li>
 					</ul>
 					{% endfor %}
 			{% endif %}
