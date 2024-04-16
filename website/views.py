@@ -83,7 +83,24 @@ def prospects(request):
     records = Record.objects.order_by(ordering, '-created_at')
     return render(request, 'prospects.html', {'records': records})
 
+def lead(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Du er logget ind")
+
+    ordering = Case(
+    When(Opfølgningsdato__isnull=True, then=Value('31-12-2999')),
+    default=F('Opfølgningsdato'),
+    output_field=DateField()
+    ).asc()
+
+    records = Record.objects.order_by(ordering, '-created_at')
+    return render(request, 'lead.html', {'records': records})
 
 
 def login_user (request): 
