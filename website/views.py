@@ -75,7 +75,7 @@ def prospects(request):
             messages.success(request, "Du er logget ind")
 
     ordering = Case(
-    When(Opfølgningsdato__isnull=True, then=Value('31-12-2999')),
+    When(Opfølgningsdato__isnull=True, then=Value('9999-12-31')),
     default=F('Opfølgningsdato'),
     output_field=DateField()
     ).asc()
@@ -94,7 +94,7 @@ def lead(request):
             messages.success(request, "Du er logget ind")
 
     ordering = Case(
-    When(Opfølgningsdato__isnull=True, then=Value('31-12-2999')),
+    When(Opfølgningsdato__isnull=True, then=Value('9999-12-31')),
     default=F('Opfølgningsdato'),
     output_field=DateField()
     ).asc()
