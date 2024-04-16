@@ -43,7 +43,7 @@
         <div class="tbody">
         <tbody>
           {% for record in records %}
-          {% if record.Status != 'Lost' and record.Status != 'Lukket aftale' %}
+          {% if record.Status != 'Lost' and record.Status != 'Lukket aftale' and record.Status != 'Lead' %}
           <tr>
             <td><a href="{% url 'Record' record.id %}">{{ record.Adresse }}</td>
             <td>{{ record.By }}</td>
