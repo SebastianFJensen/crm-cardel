@@ -41,7 +41,7 @@
 		  	transform: rotate(-45deg);
 		  }
 	</style>
-	{% for file in folder.allfiles.all.order_by('-upload_date') %}
+	{% for file in folder.allfiles.all %}
 		<div class="row">
 			<div class="col-md-11 d-flex align-items-center">
 				<a href="{{file.files.url}}">{{file|linebreaks}}</a>
