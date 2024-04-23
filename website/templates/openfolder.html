@@ -7,8 +7,8 @@
 	<br>
 	{% include 'upload_file.html' %}
 	<br>
-	<link rel="stylesheet" href="{% static 'fontawesome_5/css/all.min.css' %}">
 	<style>
+		@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css');
 		.fa-times {
 			font-size: 1.5em;
 			margin-left: 10px;
@@ -19,7 +19,7 @@
 			<div class="col-md-11 d-flex align-items-center">
 				<a href="{{file.files.url}}">{{file|linebreaks}}</a>
 				<a href="#" class="text-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{file.pk}}">
-					<i class="fa fa-times"></i>
+					<i class="fas fa-times"></i>
 				</a>
 				<!-- Delete Modal -->
 				<div class="modal fade" id="deleteModal-{{file.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{file.pk}}" aria-hidden="true">
