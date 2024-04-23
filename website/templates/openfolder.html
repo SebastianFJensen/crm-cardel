@@ -9,18 +9,44 @@
 	<br>
 	<link rel="stylesheet" href="{% static 'fontawesome_5/css/all.min.css' %}">
 	<style>
-		@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css');
 		.fa-times {
 			font-size: 1.5em;
 			margin-left: 10px;
 		}
+		  .x-icon {
+		  	display: inline-block;
+		  	width: 1.5em;
+		  	height: 1.5em;
+		  	background-color: #fff;
+		  	border-radius: 50%;
+		  	position: relative;
+		  }
+		  .x-icon:before,
+		  .x-icon:after {
+		  	content: "";
+		  	position: absolute;
+		  	height: 2px;
+		  	background-color: #dc3545;
+		  }
+		  .x-icon:before {
+		  	left: 0.2em;
+		  	top: 0.35em;
+		  	width: 85%;
+		  	transform: rotate(45deg);
+		  }
+		  .x-icon:after {
+		  	left: 0.2em;
+		  	top: 0.35em;
+		  	width: 85%;
+		  	transform: rotate(-45deg);
+		  }
 	</style>
 	{% for file in folder.allfiles.all %}
 		<div class="row">
 			<div class="col-md-11 d-flex align-items-center">
 				<a href="{{file.files.url}}">{{file|linebreaks}}</a>
 				<a href="#" class="text-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{file.pk}}">
-					<i class="fas fa-times bg-danger text-red"></i>
+					<span class="x-icon"></span>
 				</a>
 				<!-- Delete Modal -->
 				<div class="modal fade" id="deleteModal-{{file.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{file.pk}}" aria-hidden="true">
