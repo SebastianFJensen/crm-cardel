@@ -11,8 +11,8 @@
           <h5 class="modal-title" id="exampleModalLabel">Upload fil</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <input type="file" name="uploadfile[]" multiple>
+        <div class="modal-body" ondragenter="handleDragEnter(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" data-files-dropped="false">
+          <input type="file" name="uploadfile[]" multiple draggable>
           <input type="hidden" name="fid" value="{{folder.pk}}">
         </div>
         <div class="modal-footer">
@@ -22,3 +22,32 @@
     </div>
   </div>
 </form>
+
+<script type="text/javascript">
+  let filesDropped = false;
+
+function handleDrop(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  const modalBody = document.querySelector('.modal-body');
+  modalBody.classList.remove('drag-over');
+  filesDropped = true;
+  const files = event.dataTransfer.files;
+  const input = document.querySelector('input[type="file"]');
+  input.files = files;
+}
+
+document.querySelector('.modal-footer input[type="submit"]').addEventListener('click', () => {
+  if (filesDropped) {
+    const input = document.querySelector('input[type="file"]');
+    const form = input.closest('form');
+    form.submit();
+  }
+});
+</script>
+
+<style type="text/css">
+  #exampleModal.drag-over {
+  background-color: #f5f5f5;
+}
+</style>
