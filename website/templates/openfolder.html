@@ -20,7 +20,7 @@
 			<div class="col-md-11 d-flex align-items-center">
 				<a href="{{file.files.url}}">{{file|linebreaks}}</a>
 				<a href="#" class="text-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{file.pk}}">
-					<i class="fas fa-times"></i>
+					<i class="fas fa-times bg-danger text-red"></i>
 				</a>
 				<!-- Delete Modal -->
 				<div class="modal fade" id="deleteModal-{{file.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{file.pk}}" aria-hidden="true">
