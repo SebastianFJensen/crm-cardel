@@ -36,7 +36,7 @@
             <th scope="col">m2</th>
             <th scope="col">Lead</th>
             <th scope="col">Status</th>
-            <th scope="col">Forfaldsdato</th>
+            <th scope="col">Opfølgningsdato</th>
           </tr>
         </thead>
         <div class="tbody">
@@ -53,7 +53,7 @@
             <td>{{ record.m2 }}</td>
             <td>{{ record.Lead }}</td>
             <td>{{ record.Status }}</td>
-            <td>{{ record.Forfaldsdato|date:"d-m-Y" }}</td>
+            <td>{{ record.Opfølgningsdato|date:"d-m-Y" }}</td>
           </tr>
             {% endif %}
             {% endfor %}
