@@ -233,6 +233,8 @@ def create_new_folder(request):
 
 def open_folder(request, pk):
     folder = get_object_or_404(Folder, pk=pk)
+    case_id = folder.record.id
+    request.session['case_id'] = case_id
     return render(request, 'openfolder.html', {'folder':folder})
 
 def upload_file(request):
