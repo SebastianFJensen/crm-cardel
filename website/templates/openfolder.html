@@ -5,7 +5,14 @@
 {% block content %}
 
 	<br>
-	{% include 'upload_file.html' %}
+	<div id="container" class="d-flex align-items-center">
+		<div class = "Button2">
+			{% include 'upload_file.html' %}
+		</div>
+		<div class = "button34" style="margin-left: 10px">
+			<a href="{% url 'Record' pk=request.session.case_id %}" class="btn btn-secondary">Retur til sag</a>
+		</div>
+	</div>
 	<br>
 	<link rel="stylesheet" href="{% static 'fontawesome_5/css/all.min.css' %}">
 	<style>
@@ -39,6 +46,10 @@
 		  	top: 0.35em;
 		  	width: 85%;
 		  	transform: rotate(-45deg);
+		  }
+		  .container {
+		  	justify-content: space-between;
+		  	margin-left: 60px;
 		  }
 	</style>
 	{% for file in folder.allfiles.all %}
