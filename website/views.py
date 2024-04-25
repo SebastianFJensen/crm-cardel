@@ -139,7 +139,7 @@ def add_record(request):
                 if not Record.objects.filter(BFE_Nummer=bfe_nummer).exists():
                     add_record = form.save()
                     messages.success(request, "Registrering er tilføjet...")
-                    return redirect('prospects')
+                    return redirect('Record', pk=add_record.pk)
                 else:
                     messages.error(request, "Registreringen findes allerede...")
                     return render(request, 'add_record.html', {'form':form})
