@@ -93,7 +93,7 @@ class RecordResource(resources.ModelResource):
 def get_file_location(instance, filename):
     now = datetime.now()
     date_str = now.strftime('%Y%m%d')
-    return f"{instance.folder.record.id}/{date_str}/{unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore').decode()}"
+    return f"{instance.folder.record.id}/{unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore').decode()}"
 
 class Folder(models.Model):
     record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='folders')
