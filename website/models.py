@@ -113,6 +113,8 @@ def create_folder(sender, instance, created, **kwargs):
 class File(models.Model):
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, related_name='allfiles')
     files = models.FileField(upload_to=get_file_location, max_length=500)
+    uploaded_on = models.DateTimeField(auto_now_add=False, auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.files}"
