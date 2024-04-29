@@ -147,9 +147,9 @@ blob_service_client = BlobServiceClient.from_connection_string(AZURE_STORAGE_CON
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = ''
-DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIAFILES_DIRS = [os.path.join(BASE_DIR, 'media')]
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'website/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
