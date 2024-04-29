@@ -24,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 from pathlib import Path
 import os
 from import_export.formats.base_formats import CSV, XLSX
+from azure.storage.blob import BlobServiceClient
 IMPORT_FORMATS = [CSV, XLSX]
 
 SECRET_KEY = 'django-insecure-ytzj4lhf&7g%duwxyz)3pg#cup9%=6%*7wxlx!bhbucj)zh+2w'
@@ -140,12 +141,19 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
+
+blob_service_client = BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
+
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = ''
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 MEDIAFILES_DIRS = [os.path.join(BASE_DIR, 'media')]
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'website/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+AZURE_STORAGE_CONTAINER = "cardel"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
