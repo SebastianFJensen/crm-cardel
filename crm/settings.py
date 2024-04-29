@@ -147,7 +147,6 @@ MEDIAFILES_DIRS = [os.path.join(BASE_DIR, 'media')]
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'website/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-AZURE_STORAGE_CONTAINER = "cardel"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
