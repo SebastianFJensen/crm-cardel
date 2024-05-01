@@ -61,7 +61,14 @@ def archived(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Du er logget ind")
-    records = Record.objects.all()
+
+    ordering = Case(
+    When(Opfølgningsdato__isnull=True, then=Value('9999-12-31')),
+    default=F('Opfølgningsdato'),
+    output_field=DateField()
+    ).asc()
+
+    records = Record.objects.order_by(ordering, '-created_at')
     return render(request, 'archived.html', {'records': records})
 
 def prospects(request):
