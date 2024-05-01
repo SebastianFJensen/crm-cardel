@@ -48,34 +48,6 @@
   });
 </script>
 
-<script>
-// Get the date input field
-const dateInput = document.querySelector('input[name="Forfaldsdato"]');
-
-// Add an event listener for the form submission
-document.querySelector('form').addEventListener('submit', function(event) {
-  // Check if the date format is correct
-  if (!/^\d{2}-\d{2}-\d{4}$/.test(dateInput.value)) {
-    // Display an error message
-    alert('Datoformat skal være dd-mm-yyyy');
-    // Prevent the form from being submitted
-    event.preventDefault();
-  }
-});
-
-// Add an event listener for the date input field blur event
-dateInput.addEventListener('blur', function() {
-  // Check if the date format is correct
-  if (!/^\d{2}-\d{2}-\d{4}$/.test(dateInput.value)) {
-    // Display an error message
-    dateInput.setCustomValidity('Datoformat skal være dd-mm-yyyy');
-  } else {
-    // Clear the error message
-    dateInput.setCustomValidity('');
-  }
-});
-</script>
-
 <br/>
   <button type="submit" class="btn btn-secondary">Opdater</button>
 
