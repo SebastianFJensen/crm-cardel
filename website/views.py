@@ -249,7 +249,11 @@ def upload_file(request):
     folder = get_object_or_404(Folder, pk=folder_id)
 
     for uploaded_file in request.FILES.getlist('uploadfile[]'):
-        File.objects.create(folder=folder, files=uploaded_file)
+        if len(uploaded_file.name) > 300:
+            raise ValueError("Filename too long (max. 300 characters): %s" % uploaded_file.name)
+
+        new_file = File(folder=folder, files=uploaded_file)
+        new_file.save()
 
     return redirect('open_folder', pk=folder_id)
     

@@ -55,7 +55,7 @@
 	{% for file in folder.allfiles.all %}
 		<div class="row">
 			<div class="col-md-11 d-flex align-items-center">
-				<a href="{{file.files.url}}">{{file|linebreaks}}</a>
+				<a href="{{file.file.url}}">{{file|linebreaks}}</a>
 				<a href="#" class="text-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{file.pk}}">
 					<span class="x-icon"></span>
 				</a>

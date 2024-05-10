@@ -136,6 +136,12 @@ USE_TZ = True
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024
 
+DEFAULT_FILE_STORAGE = 'website.azure_storage.AzureStorage'
+
+AZURE_CONNECTION_STRING = os.environ['AZURE_CONNECTION_STRING']
+AZURE_CONTAINER_NAME = 'cardel'
+AZURE_STORAGE_ACCOUNT_NAME = os.environ['AZURE_STORAGE_ACCOUNT_NAME']
+AZURE_STORAGE_ACCOUNT_KEY = os.environ['AZURE_STORAGE_ACCOUNT_KEY']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

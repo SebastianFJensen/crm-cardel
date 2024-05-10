@@ -91,9 +91,14 @@ class RecordResource(resources.ModelResource):
         use_bulk = True
 
 def get_file_location(instance, filename):
-    now = datetime.now()
-    date_str = now.strftime('%Y%m%d')
-    return f"{instance.folder.record.id}/{unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore').decode()}"
+    if instance.folder is None:
+        raise ValueError("Folder must be set before saving the file")
+
+    upload_date = datetime.now().strftime('%Y%m%d')
+    filename_parts = os.path.splitext(filename)
+    filename_base = unicodedata.normalize('NFKD', filename_parts[0]).encode('ascii', 'ignore').decode()
+    filename_ext = filename_parts[1]
+    return f"{instance.folder.record.id}/{instance.folder.folder_type}/{filename_base}{filename_ext}"
 
 class Folder(models.Model):
     record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='folders')
