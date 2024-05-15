@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate , login , logout
+from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Record , Comment , RecordResource, Folder, File
 from .forms import AddRecordForms , CommentForm, ImportRecordDataForm, NewFolderForm
@@ -132,41 +133,65 @@ def customer_record(request, pk):
         return redirect('home')
 
 def delete_record(request, pk):
+    if not request.user.is_authenticated:
+        messages.error(request, "Du skal være logget ind for at se siden")
+        return redirect('home')
+    if not request.user.is_staff:
+        messages.error(request, "Du har ikke rettigheder til dette område")
+        return redirect('home')
+
     record = get_object_or_404(Record, pk=pk)
     record.delete()
+    messages.success(request, "Sagen er blevet slettet")
     return redirect('home')
 
 
 def add_record(request):
-    form = AddRecordForms(request.POST or None)
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            if form.is_valid():
-                bfe_nummer = form.cleaned_data['BFE_Nummer']
-                if not Record.objects.filter(BFE_Nummer=bfe_nummer).exists():
-                    add_record = form.save()
-                    messages.success(request, "Registrering er tilføjet...")
-                    return redirect('Record', pk=add_record.pk)
-                else:
-                    messages.error(request, "Registreringen findes allerede...")
-                    return render(request, 'add_record.html', {'form':form})
-        return render(request, 'add_record.html', {'form':form})
-    else:
-        messages.success(request, "Du skal være logget ind for at se siden")
+    if not request.user.is_authenticated:
+        messages.error(request, "Du skal være logget ind for at se siden")
+        return redirect('home')
+    if not request.user.is_staff:
+        messages.error(request, "Du har ikke rettigheder til dette område")
         return redirect('home')
 
+def add_record(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Du skal være logget ind for at se siden")
+        return redirect('home')
+    if not request.user.is_staff:
+        messages.error(request, "Du har ikke rettigheder til dette område")
+        return redirect('home')
+
+    form = AddRecordForms(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            bfe_nummer = form.cleaned_data['BFE_Nummer']
+            if not Record.objects.filter(BFE_Nummer=bfe_nummer).exists():
+                add_record = form.save()
+                messages.success(request, "Registrering er tilføjet...")
+                return redirect('Record', pk=add_record.pk)
+            else:
+                messages.error(request, "Registreringen findes allerede...")
+                return render(request, 'add_record.html', {'form':form})
+    return render(request, 'add_record.html', {'form':form})
+
+
 def update_record(request, pk):
-    if request.user.is_authenticated:
-        customer_record = Record.objects.get(id=pk)
-        form = AddRecordForms(request.POST or None, instance=customer_record)
+    if not request.user.is_authenticated:
+        messages.error(request, "Du skal være logget ind for at se siden")
+        return redirect('home')
+    if not request.user.is_staff:
+        messages.error(request, "Du har ikke rettigheder til dette område")
+        return redirect('home')
+
+    customer_record = Record.objects.get(id=pk)
+    form = AddRecordForms(request.POST or None, instance=customer_record)
+    if request.method == "POST":
         if form.is_valid():
             form.save()
             messages.success(request, "Sagen er blevet opdateret")
             return redirect('Record', pk=customer_record.pk)
-        return render(request, 'update_record.html', {'form':form})
-    else:
-        messages.success(request, "Du skal være logget ind for at se siden")
-        return redirect('home')
+    return render(request, 'update_record.html', {'form':form})
 
 def record_details(request, pk):
     record = Record.objects.get(id=pk)
@@ -245,22 +270,39 @@ def open_folder(request, pk):
     return render(request, 'openfolder.html', {'folder':folder})
 
 def upload_file(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Du skal være logget ind for at se siden")
+        return redirect('home')
+    if not request.user.is_staff:
+        messages.error(request, "Du har ikke rettigheder til dette område")
+        return redirect('home')
+
     folder_id = request.POST.get('fid')
     folder = get_object_or_404(Folder, pk=folder_id)
 
     for uploaded_file in request.FILES.getlist('uploadfile[]'):
         if len(uploaded_file.name) > 300:
-            raise ValueError("Filename too long (max. 300 characters): %s" % uploaded_file.name)
+            messages.error(request, "Filnavn er for langt (maks. 300 tegn): %s" % uploaded_file.name)
+            return redirect('open_folder', pk=folder_id)
 
         new_file = File(folder=folder, files=uploaded_file)
         new_file.save()
 
+    messages.success(request, "Filen er blevet uploadet")
     return redirect('open_folder', pk=folder_id)
     
 def delete_file(request, pk):
+    if not request.user.is_authenticated:
+        messages.error(request, "Du skal være logget ind for at se siden")
+        return redirect('home')
+    if not request.user.is_staff:
+        messages.error(request, "Du har ikke rettigheder til dette område")
+        return redirect('home')
+
     file = get_object_or_404(File, pk=pk)
     file.files.delete()
     file.delete()
+    messages.success(request, "Filen er blevet slettet")
     return redirect('open_folder', pk=file.folder.pk)
 
 class EditCommentView(UpdateView):
