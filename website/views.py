@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Record , Comment , RecordResource, Folder, File
+from .models import Record , Comment , RecordResource, Folder, File, Almene_kvoter
 from .forms import AddRecordForms , CommentForm, ImportRecordDataForm, NewFolderForm
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import CreateView
@@ -320,3 +320,8 @@ class EditCommentView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('Record', kwargs={'pk': self.object.post.id})
+    
+def almene_kvoter_list(request):
+    almene_kvoters = Almene_kvoter.objects.all()
+    context = {'almene_kvoters': almene_kvoters}
+    return render(request, 'kommuner.html', context)
