@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+<meta name="viewport" content="width=device-width; initial-scale=1.0">
+{% load static %}
+<link rel="stylesheet" type='text/css' href="{% static 'style.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+{% block content %}
+  <h1>Oversigt over kommunernes almene kvoter</h1>
+  <ul>
+    {% for almene_kvoter in almene_kvoters %}
+      <li>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse-{{ forloop.counter }}">
+                {{ almene_kvoter.Kommune }}
+              </button>
+            </h2>
+            <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <p><strong>Region:</strong> {{ almene_kvoter.Region }}</p>
+                <p><strong>Grundkapital:</strong> {{ almene_kvoter.Grundkapital }}</p>
+                <p><strong>Yderligere info:</strong> {{ almene_kvoter.Yderligere_info }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}
