@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Record, Comment, Folder
+from .models import Record, Comment, Folder, Almene_kvoter
 
 class AddRecordForms(forms.ModelForm):
     BFE_Nummer = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"BFE Nummer", "class":"form-control"}))
     Adresse = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Adresse", "class":"form-control"}))
     By = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"By", "class":"form-control"}))
-    Kommune = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Kommune", "class":"form-control"}))
+    Kommune = forms.ModelChoiceField(queryset=Almene_kvoter.objects.values_list('Kommune', flat=True).distinct())
     Postnummer = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Postnummer", "class":"form-control"}))
     Region = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Region", "class":"form-control"}))
     Kontaktperson = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Kontaktperson", "class":"form-control"}))
