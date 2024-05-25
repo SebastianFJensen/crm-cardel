@@ -22,6 +22,7 @@ from .filters import RecordFilter
 from django.utils import timezone
 from datetime import datetime
 from azure.storage.blob import BlobServiceClient
+from django.conf import settings
 import os
 
 
