@@ -52,33 +52,33 @@
 		  	margin-left: 60px;
 		  }
 	</style>
-	{% for file in folder.allfiles.all %}
-		<div class="row">
-			<div class="col-md-11 d-flex align-items-center">
-				<a href="{{file.file.url}}">{{file|linebreaks}}</a>
-				<a href="#" class="text-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{file.pk}}">
-					<span class="x-icon"></span>
-				</a>
-				<!-- Delete Modal -->
-				<div class="modal fade" id="deleteModal-{{file.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{file.pk}}" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="deleteModalLabel-{{file.pk}}"><strong>Slet fil</strong></h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								Er du sikker på at du vil slette?
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
-								<a href="{% url 'delete_file' pk=file.pk %}" class="btn btn-danger">Slet fil</a>
-							</div>
-						</div>
+{% for file in folder.allfiles.all %}
+<div class="row">
+	<div class="col-md-11 d-flex align-items-center">
+		<a href="{{file.file_url}}" target="_blank">{{file.files}}</a>
+		<a href="#" class="text-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{file.pk}}">
+			<span class="x-icon"></span>
+		</a>
+		<!-- Delete Modal -->
+		<div class="modal fade" id="deleteModal-{{file.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{file.pk}}" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteModalLabel-{{file.pk}}"><strong>Slet fil</strong></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Er du sikker på at du vil slette?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
+						<a href="{% url 'delete_file' pk=file.pk %}" class="btn btn-danger">Slet fil</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	{% endfor %}
+	</div>
+</div>
+{% endfor %}
 
 {% endblock content %}
