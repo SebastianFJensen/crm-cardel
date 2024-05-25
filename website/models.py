@@ -48,7 +48,7 @@ class Record(models.Model):
     ('Møde aflyst', 'Møde aflyst'),
     ]
     created_at = models.DateTimeField(auto_now_add=True)
-    BFE_Nummer = models.CharField(max_length=20, null=True)
+    BFE_Nummer = models.CharField(max_length=20, null=True, unique=True)
     Adresse = models.CharField(max_length=60, null=True)
     Postnummer = models.CharField(max_length=4, null=True)
     By = models.CharField(max_length=80, blank=True)
