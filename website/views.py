@@ -121,18 +121,24 @@ def logout_user (request):
 	messages.success(request, "Du er nu logget ud")
 	return redirect('home')
 
-def customer_record(request, pk):
-    if request.user.is_authenticated:
-        customer_record = Record.objects.get(id=pk)
-        if request.method =="POST":
+class CustomerRecordView(View):
+    def get(self, request, pk):
+        if request.user.is_authenticated:
+            customer_record = Record.objects.get(id=pk)
+            folders = customer_record.folders.all()
+            return render(request, "Record.html", {'customer_record':customer_record, 'folders':folders})
+        else:
+            messages.success(request, "Du skal være logget ind for at se siden")
+            return redirect('home')
+
+    def post(self, request, pk):
+        if request.user.is_authenticated:
+            customer_record = Record.objects.get(id=pk)
             messages.success(request, "Sagen er blevet gemt")
             return redirect('Record')
         else:
-            folders = customer_record.folders.all()
-            return render(request, "Record.html", {'customer_record':customer_record, 'folders':folders})
-    else:
-        messages.success(request, "Du skal være logget ind for at se siden")
-        return redirect('home')
+            messages.success(request, "Du skal være logget ind for at se siden")
+            return redirect('home')
 
 def delete_record(request, pk):
     if not request.user.is_authenticated:
@@ -146,15 +152,6 @@ def delete_record(request, pk):
     record.delete()
     messages.success(request, "Sagen er blevet slettet")
     return redirect('home')
-
-
-def add_record(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "Du skal være logget ind for at se siden")
-        return redirect('home')
-    if not request.user.is_staff:
-        messages.error(request, "Du har ikke rettigheder til dette område")
-        return redirect('home')
 
 def add_record(request):
     if not request.user.is_authenticated:
