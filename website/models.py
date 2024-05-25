@@ -126,7 +126,7 @@ class File(models.Model):
         return f"{self.files}"
     
 class Almene_kvoter(models.Model):
-    Kommune = models.CharField(max_length=40, null=True, unique=True)
+    Kommune = models.CharField(max_length=40, null=True)
     Region = models.CharField(max_length=30, null=True)
     Grundkapital = models.CharField(max_length=30, null=True, blank=True)
     Yderligere_info = models.TextField(blank=True, null=True)
