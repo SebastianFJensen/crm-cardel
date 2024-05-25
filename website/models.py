@@ -98,7 +98,7 @@ def get_file_location(instance, filename):
     filename_parts = os.path.splitext(filename)
     filename_base = unicodedata.normalize('NFKD', filename_parts[0]).encode('ascii', 'ignore').decode()
     filename_ext = filename_parts[1]
-    return f"{instance.folder.record.id}/{instance.folder.folder_type}/{filename_base}{filename_ext}"
+    return f"{"https://csb10032002e6082b24.blob.core.windows.net/cardel"}/{instance.folder.record.id}/{instance.folder.folder_type}/{filename_base}{filename_ext}"
 
 class Folder(models.Model):
     record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='folders')
@@ -118,6 +118,9 @@ def create_folder(sender, instance, created, **kwargs):
 class File(models.Model):
     folder = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, related_name='allfiles')
     files = models.FileField(upload_to=get_file_location, max_length=500)
+    file_url = models.URLField(max_length=500)
+    uploaded_on = models.DateTimeField(auto_now_add=False, auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.files}"
