@@ -20,8 +20,6 @@ from django.views.generic import View
 from openpyxl import load_workbook
 from .filters import RecordFilter
 from django.utils import timezone
-from datetime import datetime
-from azure.storage.blob import BlobServiceClient
 import os
 
 
@@ -121,24 +119,18 @@ def logout_user (request):
 	messages.success(request, "Du er nu logget ud")
 	return redirect('home')
 
-class CustomerRecordView(View):
-    def get(self, request, pk):
-        if request.user.is_authenticated:
-            customer_record = Record.objects.get(id=pk)
-            folders = customer_record.folders.all()
-            return render(request, "Record.html", {'customer_record':customer_record, 'folders':folders})
-        else:
-            messages.success(request, "Du skal være logget ind for at se siden")
-            return redirect('home')
-
-    def post(self, request, pk):
-        if request.user.is_authenticated:
-            customer_record = Record.objects.get(id=pk)
+def customer_record(request, pk):
+    if request.user.is_authenticated:
+        customer_record = Record.objects.get(id=pk)
+        if request.method =="POST":
             messages.success(request, "Sagen er blevet gemt")
             return redirect('Record')
         else:
-            messages.success(request, "Du skal være logget ind for at se siden")
-            return redirect('home')
+            folders = customer_record.folders.all()
+            return render(request, "Record.html", {'customer_record':customer_record, 'folders':folders})
+    else:
+        messages.success(request, "Du skal være logget ind for at se siden")
+        return redirect('home')
 
 def delete_record(request, pk):
     if not request.user.is_authenticated:
@@ -284,27 +276,11 @@ def upload_file(request):
             messages.error(request, "Filnavn er for langt (maks. 300 tegn): %s" % uploaded_file.name)
             return redirect('open_folder', pk=folder_id)
 
-        # Create a BlobServiceClient object
-        blob_service_client = BlobServiceClient.from_connection_string(settings.AZURE_CONNECTION_STRING)
-
-        # Create a blob client
-        blob_client = blob_service_client.get_blob_client("cardel", f"{folder.record.id}/{folder.folder_type}/{uploaded_file.name}")
-
-        # Upload the file
-        blob_client.upload_blob(uploaded_file, overwrite=True)
-
-        # Get the URL of the uploaded file
-        file_url = blob_client.url
-
-        # Create a new File instance
-        new_file = File(folder=folder, file_url=file_url, uploaded_on=datetime.now())
+        new_file = File(folder=folder, files=uploaded_file)
         new_file.save()
-
-    return redirect('open_folder', pk=folder_id)
 
     messages.success(request, "Filen er blevet uploadet")
     return redirect('open_folder', pk=folder_id)
-
     
 def delete_file(request, pk):
     if not request.user.is_authenticated:
