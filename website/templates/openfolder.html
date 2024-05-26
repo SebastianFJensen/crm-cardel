@@ -52,7 +52,7 @@
 		  	margin-left: 60px;
 		  }
 	</style>
-{% for file in folder.allfiles.all %}
+{% for file in folder.allfiles.all|dictsortreversed:"uploaded_on" %}
 <div class="row">
 	<div class="col-md-11 d-flex align-items-center">
 		<a href="{{file.file_url}}" target="_blank">{{file.files}}</a>
