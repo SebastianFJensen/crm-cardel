@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Record , Comment , RecordResource, Folder, File, Almene_kvoter
+from .models import Record , Comment , RecordResource, Folder, File, Almene_kvoter, get_file_location
 from .forms import AddRecordForms , CommentForm, ImportRecordDataForm, NewFolderForm
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import CreateView
