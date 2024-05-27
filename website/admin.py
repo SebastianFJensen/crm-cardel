@@ -14,7 +14,7 @@ class FolderAdmin(ImportExportModelAdmin):
     pass
 
 class FileAdmin(ImportExportModelAdmin):
-    pass
+    list_display = ('files', 'folder', 'user', 'uploaded_on')
 
 class Almene_kvoterAdmin(ImportExportModelAdmin):
     pass
