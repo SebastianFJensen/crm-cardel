@@ -98,32 +98,7 @@
 <br/>
 <div class="container2">
 <div class="card"> <div class="card-body"> <h5 class="card-title">Tilføj en note</h5> <p class="card-text">Beskriv din erfaring herunder.</p>
-	<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#commentModal" style="margin-right: 5px;">
-		Tilføj kommentar
-	  </button>
-	  
-	  <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-			<form method="post" action="{% url 'add_comment1' pk=customer_record.pk %}">
-			  {% csrf_token %}
-			  <div class="modal-header">
-				<h5 class="modal-title" id="deleteModalLabel">Tilføj kommentar</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			  </div>
-			  <div class="modal-body">
-				  <div class="form-group">
-					  <textarea class="form-control" rows="5" name="body" required></textarea>
-				  </div>
-			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
-				<button type="submit" class="btn btn-secondary">Tilføj kommentar</button>
-			  </div>
-			</form>
-		  </div>
-		</div>
-	  </div>
+	{% include 'add_comment.html' %}
 </div>
 </div>
 <br>
@@ -142,31 +117,7 @@
       <p class="card-text">{{ comment.created_on }}</p>
       <p class="card-text">{{ comment.body|linebreaks }}</p>
 	  {% if user == comment.user %}
-	  <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editCommentModal-{{ comment.id }}" style="margin-right: 5px;">Rediger kommentar</a>
-	
-	  <!-- The modal -->
-	  <div class="modal fade" id="editCommentModal-{{ comment.id }}" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-			<form method="post" action="{% url 'edit_comment' customer_record.id comment.id %}">
-			  {% csrf_token %}
-			  <div class="modal-header">
-				<h5 class="modal-title" id="editCommentModalLabel">Rediger kommentar</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			  </div>
-			  <div class="modal-body">
-				<div class="form-group">
-					<textarea class="form-control" rows="5" name="body" required>{{ comment.body }}</textarea>
-				</div>
-			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
-				<button type="submit" class="btn btn-secondary">Gem</button>
-			  </div>
-			</form>
-		  </div>
-		</div>
-	  </div>
+	  {% include 'edit_comment.html' %}
 	{% endif %}
     </div>
   </div>

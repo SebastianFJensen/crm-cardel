@@ -1,22 +1,26 @@
-{% extends 'base.html' %}
-{% block title %} Tilføj en note til sag
-
-{% endblock %}
-{% block content %}
-
-<br/>
-<h1>Tilføj note</h1>
-<br/>
-
-	<div class ="form-group">
-<form method="POST">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<button class="btn btn-secondary">Tilføj note</button>
-<br/>
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#commentModal" style="margin-right: 5px;">
+	Tilføj kommentar
+  </button>
+  
+  <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<form method="post" action="{% url 'add_comment1' pk=customer_record.pk %}">
+		  {% csrf_token %}
+		  <div class="modal-header">
+			<h5 class="modal-title" id="deleteModalLabel">Tilføj kommentar</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body">
+			  <div class="form-group">
+				  <textarea class="form-control" rows="5" name="body" required></textarea>
+			  </div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
+			<button type="submit" class="btn btn-secondary">Tilføj kommentar</button>
+		  </div>
+		</form>
+	  </div>
 	</div>
-
-
-
-
-{% endblock %}
+  </div>

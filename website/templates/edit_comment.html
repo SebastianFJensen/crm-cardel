@@ -1,11 +1,25 @@
-{% extends 'base.html' %}
+<a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editCommentModal-{{ comment.id }}" style="margin-right: 5px;">Rediger kommentar</a>
 
-{% block content %}
-  <h2>Rediger kommentar</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Gem ændringer</button>
-    <button class="btn btn-secondary">Gem</button>
-  </form>
-{% endblock %}
+<!-- The modal -->
+<div class="modal fade" id="editCommentModal-{{ comment.id }}" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'edit_comment' customer_record.id comment.id %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCommentModalLabel">Rediger kommentar</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+              <textarea class="form-control" rows="5" name="body" required>{{ comment.body }}</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
+          <button type="submit" class="btn btn-secondary">Gem</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
