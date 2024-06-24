@@ -145,20 +145,33 @@
   <div class="activity-content" data-activity="salg">
     <div class="activity-item" data-activity="salg">
       <div class="activity-item-header">
-        <div class="activity-item-title">Salg Item 1</div>
-        <div>2022-01-03 12:00:00</div>
+        <div class="activity-item-title" style="margin-left: 10%;">Areal</div>
+        <div id="matriklen-container"></div>
       </div>
-      <div class="activity-item-content">This is the content of salg item 1.</div>
-    </div>
-    <div class="activity-item" data-activity="salg">
-      <div class="activity-item-header">
-        <div class="activity-item-title">Salg Item 2</div>
-        <div>2022-01-04 12:00:00</div>
+      <div class="activity-item-content">
+        <iframe src="https://www.matriklen.dk/#/kort/sfe/{{ customer_record.BFE_Nummer }}" frameborder="0" width="80%" height="600" style="display: block; margin: 0 auto;"></iframe>
+        <script>
+          const iframe = document.querySelector('iframe');
+          iframe.onload = function() {
+            const navWrapper = iframe.contentDocument.querySelector('.nav-wrapper');
+            navWrapper.style.display = 'none';
+          };
+        </script>
       </div>
-      <div class="activity-item-content">This is the content of salg item 2.</div>
     </div>
-  </div>
-  <div class="activity-content" data-activity="økonomi">
+	<script>
+	const bfeNummer = '{{ customer_record.BFE_nummer }}';
+	const url = `https://www.matriklen.dk/#/kort/sfe/${bfeNummer}`;
+	
+	fetch(url)
+	.then(response => response.text())
+	.then(html => {
+		const container = document.getElementById('matriklen-container');
+		container.innerHTML = html;
+		});
+		</script>
+		</div>
+		<div class="activity-content" data-activity="økonomi">
     <div class="activity-item" data-activity="økonomi">
       <div class="activity-item-header">
         <div class="activity-item-title">Økonomi Item 1</div>
