@@ -1,14 +1,62 @@
-{% extends 'base.html' %}
+<a href="#" class="text-danger ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{file.pk}}">
+	<span class="x-icon"></span>
+</a>
 
-{% block content %}
+            <!-- Delete Modal -->
+<div class="modal fade" id="deleteModal-{{file.pk}}" tabindex="-1" aria-labelledby="deleteModalLabel-{{file.pk}}" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel-{{file.pk}}"><strong>Slet fil</strong></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Er du sikker på at du vil slette?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
+				<a href="{% url 'delete_file' pk=file.pk %}" class="btn btn-danger">Slet fil</a>
+			</div>
+		</div>
+	</div>
+</div>
 
-<h2>Delete file</h2>
 
-<form method="post" action="{% url 'delete_file' pk=file.pk %}">
-	{% csrf_token %}
-	<p>Er du sikker på at du vil slette filen?</p>
-	<button type="submit" class="btn btn-danger">Slet</button>
-	<a href="{% url 'open_folder' pk=file.folder.pk %}" class="btn btn-secondary">Annuller</a>
-</form>
-
-{% endblock %}
+	<style>
+		.fa-times {
+			font-size: 1.5em;
+			margin-left: 10px;
+		}
+		  .x-icon {
+		  	display: inline-block;
+		  	width: 0.8em;
+		  	height: 0.8em;
+		  	background-color: #fff;
+		  	border-radius: 50%;
+		  	position: relative;
+		  	margin-top: 5px;
+		  }
+		  .x-icon:before,
+		  .x-icon:after {
+		  	content: "";
+		  	position: absolute;
+		  	height: 2px;
+		  	background-color: #dc3545;
+		  }
+		  .x-icon:before {
+		  	left: 0.2em;
+		  	top: 0.35em;
+		  	width: 85%;
+		  	transform: rotate(45deg);
+		  }
+		  .x-icon:after {
+		  	left: 0.2em;
+		  	top: 0.35em;
+		  	width: 85%;
+		  	transform: rotate(-45deg);
+		  }
+		  .container {
+		  	justify-content: space-between;
+		  	margin-left: 60px;
+		  }
+	</style>
