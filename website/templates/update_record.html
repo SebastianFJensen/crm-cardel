@@ -1,59 +1,275 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
+<a href="#" data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa-solid fa-pen" style="color: white;"></i></a>
 
-{% block content %}
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<div class="col-md-6 offset-md-3">
-<br/>
-<h1>Opdater sag</h1>
-<br/>
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form method="post" action="{% url 'update_record' customer_record.pk  %}">
+              {% csrf_token %}
+            <div class="modal-header">
+              <h3 class="modal-title" id="updateModalLabel">Opdater sag</h3>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="margin-left:1.5%">
+              <h6 style="color: black;"><strong>Kontaktoplysninger</strong></h6>
+              <br>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_Kontaktperson" style="color:black; font-size: 14px;">Kontaktperson*</label>
+                  <input type="text" id="id_Kontaktperson" name="Kontaktperson" value="{{ customer_record.Kontaktperson }}" placeholder="Kontaktperson" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Telefonnummer" style="color:black; font-size: 14px;">Telefonnummer</label>
+                  <input type="text" id="id_Telefonnummer" name="Telefonnummer" value="{{ customer_record.Telefonnummer }}" placeholder="Telefonnummer" class="form-control">
+                  <br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_Mail" style="color:black; font-size: 14px;">Mail</label>
+                  <input type="text" id="id_Mail" name="Mail" value="{{ customer_record.Mail}}" placeholder="Mail" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Resights" style="color:black; font-size: 14px;">Resights</label>
+                  <input type="url" id="id_Resights" name="Resights" value="{{ customer_record.Resights}}" placeholder="Resights" class="form-control">
+                  <br>
+                </div>                
+              </div>
 
-<form method="POST">
-	{% csrf_token %}
+              <h6 style="color: black;"><strong>Arealinfo</strong></h6>
+              <br>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_Adresse" style="color:black; font-size: 14px;">Adresse*</label>
+                  <input type="text" id="id_Adresse" name="Adresse" value="{{ customer_record.Adresse }}" placeholder="Adresse" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_BFE_Nummer" style="color:black; font-size: 14px;">BFE Nummer*</label>
+                  <input type="text" id="id_BFE_Nummer" name="BFE_Nummer" value="{{ customer_record.BFE_Nummer }}" placeholder="BFE Nummer" class="form-control">
+                  <br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_By" style="color:black; font-size: 14px;">By*</label>
+                  <input type="text" id="id_By" name="By" value="{{ customer_record.By }}" placeholder="By" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Postnummer" style="color:black; font-size: 14px;">Postnummer*</label>
+                  <input type="text" id="id_Postnummer" name="Postnummer" value="{{ customer_record.Postnummer }}" placeholder="Postnummer" class="form-control">
+                  <br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_Kommune" style="color:black; font-size: 14px;">Kommune*</label>
+                  <input type="text" id="id_Kommune" name="Kommune" value="{{ customer_record.Kommune }}" placeholder="Kommune" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Region" style="color:black; font-size: 14px;">Region*</label>
+                  <input type="text" id="id_Region" name="Region" value="{{ customer_record.Region }}" placeholder="Region" class="form-control">
+                  <br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_m2" style="color:black; font-size: 14px;">M<sup>2</sup></label>
+                  <br>
+                  <input type="text" id="id_m2" name="m2" value="{{ customer_record.m2 }}" placeholder="m2" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Bebyggelsesprocent" style="color:black; font-size: 14px;">Bebyggelsesprocent</sup></label>
+                  <br>
+                  <input type="number" id="id_Bebyggelsesprocent" name="Bebyggelsesprocent" value="{{ customer_record.Bebyggelsesprocent }}" class="form-control" step="1" min="0" max="100">
+                  <br>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_areal_bm2" style="color:black; font-size: 14px;">Areal BM<sup>2</sup></label>
+                  <br>
+                  <input type="text" id="id_areal_bm2" name="areal_bm2" value="{{ customer_record.areal_bm2 }}" placeholder="areal_bm2" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Byggemeterpris" style="color:black; font-size: 14px;">Byggemeterpris</label>
+                  <br>
+                  <input type="number" id="id_Byggemeterpris" name="Byggemeterpris" value="{{ customer_record.Byggemeterpris }}" placeholder="Byggemeterpris" class="form-control">
+                  <br>
+                </div>
+              </div>
+              <h6 style="color: black;"><strong>Sagsoplysninger</strong></h6>
+                <br>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_Status" style="color:black; font-size: 14px;">Status*</label>
+                  <select id="id_Status" name="Status" class="form-control">
+                      {% for choice in customer_record.Typen %}
+                          <option value="{{ choice.0 }}" {% if customer_record.Status == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                      {% endfor %}
+                  </select>
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Lead" style="color:black; font-size: 14px;">Lead*</label>
+                  <select id="id_Lead" name="Lead" class="form-control">
+                      {% for choice in customer_record.Ansvarlig %}
+                          <option value="{{ choice.0 }}" {% if customer_record.Lead == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                      {% endfor %}
+                  </select>
+                  <br>
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="forfaldsdato-input-wrapper">
+                    <label for="id_Forfaldsdato" style="color:black; font-size: 14px;">Forfaldsdato</label>
+                    <input type="date" id="id_Forfaldsdato" name="Forfaldsdato" value="{{ customer_record.Forfaldsdato|date:'Y-m-d' }}" placeholder="Forfaldsdato" class="form-control">
+                    <br>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="lukket-aftale-status-wrapper">
+                    <label for="id_Lukket_aftale_Status" style="color:black; font-size: 14px;">Status på aftale</label>
+                    <select id="id_Lukket_aftale_Status" name="Lukket_aftale_Status" class="form-control">
+                      {% for choice in customer_record.Aftale %}
+                      <option value="{{ choice.0 }}" {% if customer_record.Lukket_aftale_Status == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                      {% endfor %}
+                    </select>
+                    <br>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div id="opfolgningsdato-input-wrapper">
+                    <label for="id_Opfølgningsdato" style="color:black; font-size: 14px;">Opfølgningsdato</label>
+                    <input type="date" id="id_Opfølgningsdato" name="Opfølgningsdato" value="{{ customer_record.Opfølgningsdato|date:'Y-m-d' }}" placeholder="Opfølgningsdato" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="moedestatus-wrapper">
+                    <label for="id_Moedestatus" style="color:black; font-size: 14px;">Mødestatus</label>
+                    <select id="id_Moedestatus" name="Moedestatus" class="form-control">
+                      {% for choice in customer_record.Mstatus %}
+                      <option value="{{ choice.0 }}" {% if customer_record.Moedestatus == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                      {% endfor %}
+                    </select>
+                    <br>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_Kommuneplan" style="color:black; font-size: 14px;">Kommuneplan</label>
+                  <input type="text" id="id_Kommuneplan" name="Kommuneplan" value="{{ customer_record.Kommuneplan }}" placeholder="Kommuneplan" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Lokalplan" style="color:black; font-size: 14px;">Lokalplan</label>
+                  <input type="text" id="id_Lokalplan" name="Lokalplan" value="{{ customer_record.Lokalplan}}" placeholder="Lokalplan" class="form-control">
+                  <br>
+                </div>
+              </div>
+              <div class="row">
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="id_Formaal" style="color:black; font-size: 14px;">Formål</label>
+                  <input type="text" id="id_Formaal" name="Formaal" value="{{ customer_record.Formaal}}"  placeholder="Formål" class="form-control">
+                  <br>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_Salgssum" style="color:black; font-size: 14px;">Salgssum</label>
+                  <input type="number" id="id_Salgssum" name="Salgssum" value="{{ customer_record.Salgssum}}" placeholder="Salgssum" class="form-control">
+                  <br>
+                </div>
+              </div>
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const statusSelect = document.getElementById('id_Status');
+                  const lukketAftaleStatusWrapper = document.getElementById('lukket-aftale-status-wrapper');
+                  const moedestatusWrapper = document.getElementById('moedestatus-wrapper');
+                  const forfaldsdatoInput = document.getElementById('forfaldsdato-input-wrapper');
+                  const opfolgningsdatoInput = document.getElementById('opfolgningsdato-input-wrapper'); // get the parent node of the input field
 
-	{{ form|crispy }}
+                  statusSelect.addEventListener('change', function() {
+                    if (this.value === 'Lukket aftale') {
+                      lukketAftaleStatusWrapper.style.display = 'block';
+                      moedestatusWrapper.style.display = 'none';
+                      forfaldsdatoInput.style.display = 'block';
+                      opfolgningsdatoInput.style.display = 'none';
+                    } else if (this.value === 'Møde booket') {
+                      lukketAftaleStatusWrapper.style.display = 'none';
+                      moedestatusWrapper.style.display = 'block';
+                      forfaldsdatoInput.style.display = 'none';
+                      opfolgningsdatoInput.style.display = 'block';
+                    } else {
+                      lukketAftaleStatusWrapper.style.display = 'none';
+                      moedestatusWrapper.style.display = 'none';
+                      forfaldsdatoInput.style.display = 'none';
+                      opfolgningsdatoInput.style.display = 'block';
+                    }
+                  });
+                  statusSelect.dispatchEvent(new Event('change'));
+                });
+                document.addEventListener("DOMContentLoaded", function() {
+                  const m2Input = document.getElementById('id_m2');
+                  const bebyggelsesprocentInput = document.getElementById('id_Bebyggelsesprocent');
+                  const arealBm2Input = document.getElementById('id_areal_bm2');
 
-<script>
-  $(function() {
-  $.datepicker.setDefaults($.datepicker.regional['da']);
-  $('.datepicker').datepicker({
-    dateFormat: 'yy-mm-dd'
-  });
-  $( "#id_Forfaldsdato" ).datepicker({
-  	dateFormat: 'yy-mm-dd',
-  	monthNames: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
-  	monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
-  	dayNamesMin: ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
-  	changeYear: true,
-    changeMonth: true
-  });
-  });
-</script>
-<script>
-  $(function() {
-  $.datepicker.setDefaults($.datepicker.regional['da']);
-  $('.datepicker').datepicker({
-    dateFormat: 'yy-mm-dd'
-  });
-  $( "#id_Opfølgningsdato" ).datepicker({
-  	dateFormat: 'yy-mm-dd',
-  	monthNames: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
-  	monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
-  	dayNamesMin: ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
-  	changeYear: true,
-    changeMonth: true
-  });
-  });
-</script>
+                  m2Input.addEventListener('input', calculateArealBm2);
+                  bebyggelsesprocentInput.addEventListener('input', calculateArealBm2);
 
-<br/>
-  <button type="submit" class="btn btn-secondary">Opdater</button>
+                  function calculateArealBm2() {
+                    if (m2Input.value && bebyggelsesprocentInput.value) {
+                      const m2 = parseFloat(m2Input.value);
+                      const bebyggelsesprocent = parseFloat(bebyggelsesprocentInput.value);
+                      const arealBm2 = m2 * (bebyggelsesprocent / 100);
+                      arealBm2Input.value = arealBm2.toFixed(0);
+                    } else {
+                    arealBm2Input.value = 0.2 * (m2Input.value || 0); // default to 20% of m2 if bebyggelsesprocent is not filled out
+                  }
+                }
+              });
+                document.getElementById('id_Bebyggelsesprocent').addEventListener('input', function() {
+                  if (this.value > 100) {
+                    this.value = 100;
+                  }
+                });
+                document.addEventListener("DOMContentLoaded", function() {
+                  const bebyggelsesprocentInput = document.getElementById('id_Bebyggelsesprocent');
+                  const arealBm2Input = document.getElementById('id_areal_bm2');
+                  const byggemeterprisInput = document.getElementById('id_Byggemeterpris');
+                  const salgssumInput = document.getElementById('id_Salgssum');
 
-</form>
+                  bebyggelsesprocentInput.addEventListener('input', calculateSalgssum);
+                  arealBm2Input.addEventListener('input', calculateSalgssum);
+                  byggemeterprisInput.addEventListener('input', calculateSalgssum);
 
-
-</div>
-
-{% endblock %}
+                  function calculateSalgssum() {
+                    if (arealBm2Input.value && byggemeterprisInput.value) {
+                      const arealBm2 = parseFloat(arealBm2Input.value);
+                      const byggemeterpris = parseFloat(byggemeterprisInput.value);
+                      const salgssum = arealBm2 * byggemeterpris;
+                      salgssumInput.value = salgssum.toFixed(0);
+                    } else {
+                      salgssumInput.value = 0;
+                    }
+                  }
+                });
+              </script>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
+              <button type="submit" class="btn btn-secondary">Opdater</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>

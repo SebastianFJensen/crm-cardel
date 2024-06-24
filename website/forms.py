@@ -19,20 +19,7 @@ class AddRecordForms(forms.ModelForm):
     Pris_Hektar = forms.DecimalField(required=False, widget=forms.widgets.TextInput(attrs={"placeholder":"Pris pr. Hektar", "class":"form-control"}))
     Forfaldsdato =  forms.DateField(required=False, input_formats=['%Y-%m-%d'], widget=forms.widgets.TextInput(attrs={"placeholder":"Forfaldsdato", 'autocomplete':'off', "class":"form-control"}))
     Opfølgningsdato = forms.DateField(required=False, input_formats=['%Y-%m-%d'], widget=forms.widgets.TextInput(attrs={"placeholder":"Opfølgningsdato", 'autocomplete':'off', "class":"form-control"}))
-    class Meta:
-        model = Record
-        exclude = ("user",)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance.Status != 'Lukket aftale':
-            self.fields.pop('Lukket_aftale_Status')
-        if self.instance.Status != 'Møde booket':
-            self.fields.pop('Moedestatus')
-        if self.instance.Status != 'Lukket aftale':
-            self.fields.pop('Forfaldsdato')
-        if self.instance.Status == 'Lukket aftale':
-            self.fields.pop('Opfølgningsdato')
 
 class CommentForm(forms.ModelForm):
     class Meta:

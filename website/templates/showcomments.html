@@ -1,0 +1,130 @@
+<a href="#" data-bs-toggle="modal" data-bs-target="#allCommentsModal"><i class="fa-solid fa-comment" style="color: white;"></i></a>
+
+<!-- The modal -->
+<div class="modal fade" id="allCommentsModal" tabindex="-1" aria-labelledby="allCommentsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="allCommentsModalLabel">Alle kommentarer</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group mb-3" style="color: black;">
+          <label for="comment-filter">Vis kommentarer fra</label>
+          <br>
+          <select class="form-control" id="comment-filter">
+            <option value="all">Alle</option>
+            <option value="staff">Internt</option>
+            <option value="non-staff">Eksternt</option>
+          </select>
+        </div>
+        <div class="list-group">
+          {% for comment in customer_record.comments.all|dictsortreversed:"created_on" %}
+            <div class="list-group-item list-group-item-action" data-is-staff="{{ comment.user.is_staff }}">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ comment.user }}</h5>
+                <small>{{ comment.created_on|date:"d-m-Y" }}</small>
+                {% if request.user == comment.user %}
+                  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editCommentModal-{{ comment.id }}">Rediger</button>
+                {% endif %}
+              </div>
+              <p class="mb-1">
+                {% if comment.body|length > 40 %}
+                  <span class="short-comment" style="display: block;">{{ comment.body|truncatechars:40 }}</span>
+                  <span class="more" style="cursor: pointer; display: block;"><a href="#" class="show-more" data-bs-toggle="modal" data-bs-target="#fullCommentModal-{{ comment.id }}" style="color: black;">Læs resten</a></span>
+                {% else %}
+                  <span style="white-space: pre-line;">{{ comment.body }}</span>
+                {% endif %}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <!-- Add a form to add a new comment -->
+        <br>
+        <form method="post" action="{% url 'add_comment1' pk=customer_record.pk %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <textarea class="form-control" rows="5" name="body" required></textarea>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-secondary">Tilføj kommentar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const commentFilter = document.getElementById('comment-filter');
+commentFilter.addEventListener('change', function() {
+  const listItems = document.querySelectorAll('.list-group-item');
+  const selectedValue = commentFilter.value;
+  listItems.forEach(function(item) {
+    const isStaff = item.dataset.isStaff === 'True';
+    if (selectedValue === 'staff') {
+      if (!isStaff) {
+        item.style.display = 'none';
+      } else {
+        item.style.display = 'block';
+      }
+    } else if (selectedValue === 'non-staff') {
+      if (isStaff) {
+        item.style.display = 'none';
+      } else {
+        item.style.display = 'block';
+      }
+    } else {
+      item.style.display = 'block';
+    }
+  });
+});
+</script>
+{% for comment in customer_record.comments.all|dictsortreversed:"created_on" %}
+  <div class="modal fade" id="fullCommentModal-{{ comment.id }}" tabindex="-1" aria-labelledby="fullCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="fullCommentModalLabel"><strong>{{ comment.user }}</strong></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="color: black;">
+          <p style="white-space: pre-line;">{{ comment.body }}</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#allCommentsModal" class="btn btn-secondary">Retur til alle</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Edit comment modals -->
+{% for comment in customer_record.comments.all|dictsortreversed:"created_on" %}
+  <div class="modal fade" id="editCommentModal-{{ comment.id }}" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" action="{% url 'edit_comment' customer_record.id comment.id %}">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h5 class="modal-title" id="editCommentModalLabel">Rediger kommentar</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+                <textarea class="form-control" rows="5" name="body" required>{{ comment.body }}</textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#allCommentsModal" class="btn btn-secondary">Retur til alle</a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
+            <button type="submit" class="btn btn-secondary">Gem</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}

@@ -186,7 +186,7 @@ def update_record(request, pk):
             form.save()
             messages.success(request, "Sagen er blevet opdateret")
             return redirect('Record', pk=customer_record.pk)
-    return render(request, 'update_record.html', {'form':form})
+    return render(request, 'update_record.html', {'customer_record':customer_record, 'form':form, 'pk':pk})
 
 def record_details(request, pk):
     record = Record.objects.get(id=pk)
@@ -272,35 +272,45 @@ def upload_file(request):
         messages.error(request, "Du har ikke rettigheder til dette område")
         return redirect('home')
 
-    folder_id = request.POST.get('fid')
-    folder = get_object_or_404(Folder, pk=folder_id)
-
-    for uploaded_file in request.FILES.getlist('uploadfile[]'):
-        if len(uploaded_file.name) > 300:
-            messages.error(request, "Filnavn er for langt (maks. 300 tegn): %s" % uploaded_file.name)
+    if request.method == 'POST':
+        folder_id = request.POST.get('fid', '')
+        if not folder_id:
+            messages.error(request, "Folder ID is required")
             return redirect('open_folder', pk=folder_id)
 
-        # Create a BlobServiceClient object
-        blob_service_client = BlobServiceClient.from_connection_string(settings.AZURE_CONNECTION_STRING)
+        folder = get_object_or_404(Folder, pk=folder_id)
 
-        # Create a blob client
-        filename_base = unicodedata.normalize('NFKD', uploaded_file.name).encode('ASCII', 'ignore').decode()
-        blob_client = blob_service_client.get_blob_client("cardel", f"{folder.record.id}/{folder.folder_type}/{filename_base}")
+        for uploaded_file in request.FILES.getlist('uploadfile[]'):
+            if len(uploaded_file.name) > 300:
+                messages.error(request, "Filnavn er for langt (maks. 300 tegn): %s" % uploaded_file.name)
+                return redirect('open_folder', pk=folder_id)
 
-        # Upload the file
-        blob_client.upload_blob(uploaded_file, overwrite=True)
+            # Create a BlobServiceClient object
+            blob_service_client = BlobServiceClient.from_connection_string(settings.AZURE_CONNECTION_STRING)
 
-        # Get the URL of the uploaded file
-        file_url = blob_client.url
+            # Create a blob client
+            filename_base = unicodedata.normalize('NFKD', uploaded_file.name).encode('ASCII', 'ignore').decode()
+            blob_client = blob_service_client.get_blob_client("cardel", f"{folder.record.id}/{folder.folder_type}/{filename_base}")
 
-        # Create a new File instance
-        new_file = File(folder=folder, files=uploaded_file.name, user= request.user, file_url=file_url, uploaded_on=datetime.now())
-        new_file.save()
+            # Upload the file
+            blob_client.upload_blob(uploaded_file, overwrite=True)
 
-    return redirect('open_folder', pk=folder_id)
+            # Get the URL of the uploaded file
+            file_url = blob_client.url
 
-    messages.success(request, "Filen er blevet uploadet")
-    return redirect('open_folder', pk=folder_id)
+            # Check if a file with the same name already exists in the database
+            existing_file = File.objects.filter(folder=folder, files=uploaded_file.name).first()
+            if existing_file:
+                # Update the existing file
+                existing_file.file_url = file_url
+                existing_file.uploaded_on = datetime.now()
+                existing_file.save()
+            else:
+                # Create a new File instance
+                new_file = File(folder=folder, files=uploaded_file.name, user=request.user, file_url=file_url, uploaded_on=datetime.now())
+                new_file.save()
+
+    return redirect(reverse_lazy('Record', kwargs={'pk': folder.record.pk}))
     
 def delete_file(request, pk):
     if not request.user.is_authenticated:

@@ -1,206 +1,242 @@
-{% extends 'base.html' %}
-<meta name="viewport" content="width=device-width; initial-scale=1.0">
-{% load static %}
-<link rel="stylesheet" type='text/css' href="{% static 'style.css' %}">
-{% block content %}
+<link rel="stylesheet" type='text/css' href="/static/record_mobile.css">
+<script src="/static/record_mobile.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-
-
-<br/>
-
+<body>
 <div class="container1">
-	<div class="card">
-		<div class="card-header">
-			<strong>{{ customer_record.Adresse }}</strong>
-		</div>
-		<form action="" method="POST">
-			{% csrf_token %}
-			<ul class="grid">
-				<li class="list-group-item"><strong>BFE-nummer: </strong>{{ customer_record.BFE_Nummer }}</li>
-				<li class="list-group-item"><strong>Kommune: </strong>{{ customer_record.Kommune }}</li>
-				<li class="list-group-item"><strong>Region: </strong>{{ customer_record.Region }}</li>
-				<li class="list-group-item"><strong>By: </strong>{{ customer_record.By }}</li>
-				<li class="list-group-item"><strong>Kontaktperson: </strong>{{ customer_record.Kontaktperson }}</li>
-				<li class="list-group-item"><strong>Mail: </strong>{{ customer_record.Mail }}</li>
-				<li class="list-group-item"><strong>Telefonnummer: </strong>{{ customer_record.Telefonnummer }}</li>
-				<li class="list-group-item"><strong>M<sup>2</sup>: </strong>{{ customer_record.m2 }}</li>
-				<li class="list-group-item"><strong>Kommuneplan: </strong>{{ customer_record.Kommuneplan }}</li>
-				<li class="list-group-item"><strong>Lokalplan: </strong>{{ customer_record.Lokalplan }}</li>
-				<li class="list-group-item"><strong>Formål: </strong>{{ customer_record.Formaal }}</li>
-				<li class="list-group-item"><strong>Lead: </strong>{{ customer_record.Lead }}</li>
-				{% if customer_record.Status != 'Lukket aftale' %}
-				<li class="list-group-item"><strong>Status: </strong>{{ customer_record.Status }}</li>
-				{% endif %}
-				{% if customer_record.Status == 'Lukket aftale' %}
-				<li class="list-group-item"><strong>Status på aftale: </strong>{{ customer_record.Lukket_aftale_Status }}</li>
-				{% endif %}
-				{% if customer_record.Status == 'Lukket aftale' %}
-				<li class="list-group-item"><strong>Forfaldsdato: </strong>{{ customer_record.Forfaldsdato|date:"d-m-Y" }}</li>
-				{% endif %}
-				{% if customer_record.Status != 'Lukket aftale' %}
-				<li class="list-group-item"><strong>Opfølgningsdato: </strong>{{ customer_record.Opfølgningsdato|date:"d-m-Y" }}</li>
-				{% endif %}
-				<li class="list-group-item"><a href="{{ customer_record.Resights }}" target="_blank" style="color: blue;">Resights</a></li>
-			</ul>
-		</div>
-		{% for field in form %}
-		<div class="form-group">
-			{{ field.label_tag }}
-			{{ field }}
-		</div>
-	</form>
-</div>
-</div>
-{% endfor %}
-
-
-<div class="buttons">
-<a href="{% url 'home' %}" class ="btn btn-secondary"  type="submit" style="margin-right: 5px;" >Gem</a>
-</form>
-
-{% if customer_record.Status == 'Lukket aftale' %}
-  <a href="{% url 'home' %}" class="btn btn-secondary" style="margin-right: 5px;">Tilbage</a>
+  {% if customer_record.Status == 'Lukket aftale' %}
+  <a href="{% url 'home' %}" style="color: #FFFFFF;">
+    <span class="return-arrow">&#8592;</span>
+  </a>
 {% elif customer_record.Status != 'Lost' and customer_record.Status != 'Lukket aftale' %}
-  <a href="{% url 'prospects' %}" class="btn btn-secondary" style="margin-right: 5px;">Tilbage</a>
+  <a href="{% url 'prospects' %}" style="color: #FFFFFF;">
+    <span class="return-arrow">&#8592;</span>
+  </a>
 {% elif customer_record.Status == 'Lost' %}
-  <a href="{% url 'archived' %}" class="btn btn-secondary" style="margin-right: 5px;">Tilbage</a>
+  <a href="{% url 'archived' %}" style="color: #FFFFFF;">
+    <span class="return-arrow">&#8592;</span>
+  </a>
 {% else %}
-  <a href="{% url 'home' %}" class="btn btn-secondary" style="margin-right: 5px;">Tilbage</a>
+  <a href="{% url 'home' %}" style="color: #FFFFFF;">
+    <span class="return-arrow">&#8592;</span>
+  </a>
 {% endif %}
-
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" style="margin-right: 5px;">
-  Slet
-</button>
-
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form method="post" action="{% url 'delete_record' pk=customer_record.pk %}">
-        {% csrf_token %}
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Slet registrering</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Er du sikker på at du vil slette registeringen?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
-          <button type="submit" class="btn btn-danger">Slet</button>
-        </div>
-      </form>
+  <span class="update">{% include 'update_record.html' %}</span>
+  <span class="comments">{% include 'showcomments.html' %}</span>
+  <span class="deleterecord">{% include 'delete_record.html' %}</span>
+  <span class="ellipsis">&#8942;</span>
+  <div class="dropdown">
+    <div class="dropdown-item">Item 1</div>
+    <div class="dropdown-item">Item 2</div>
+    <div class="dropdown-item">Item 3</div>
+  </div>
+  <div class="profile-info">
+    <div>
+      <div class="profile-name">{{ customer_record.Adresse }}</div>
+      <div class="profile-title">{{ customer_record.BFE_Nummer }}</div>
+    </div>
+  </div>
+  <div class="info-section">
+    <div>
+      {% if customer_record.Status == 'Møde booket' %}
+      <div class="info-label">Status på møde</div>
+      <div class="info-value">{{ customer_record.Moedestatus }}</div>
+      {% elif customer_record.Status == 'Lukket aftale' %}
+      <div class="info-label">Status på aftale</div>
+      <div class="info-value">{{ customer_record.Lukket_aftale_Status }}</div>
+      {% else %}
+      <div class="info-label">Status</div>
+      <div class="info-value">{{ customer_record.Status }}</div>
+      {% endif %}
+    </div>
+    <div>
+      {% if customer_record.Status == 'Lukket aftale' %}
+      <div class="info-label">Forfaldsdato</div>
+      <div class="info-value">{{ customer_record.Forfaldsdato|date:"d-m-Y" }}</div>
+      {% else %}
+      <div class="info-label">Opfølgningsdato</div>
+      <div class="info-value">{{ customer_record.Opfølgningsdato|date:"d-m-Y" }}</div>
+      {% endif %}
+    </div>
+    <div>
+      <div class="info-label">Lead</div>
+      <div class="info-value">{{ customer_record.Lead }}</div>
     </div>
   </div>
 </div>
 
-<a href="{% url 'update_record' customer_record.id %}" class="btn btn-secondary" style="margin-right: 5px;">Rediger</a>
-</div>
-<br/>
 <div class="container2">
-<div class="card"> <div class="card-body"> <h5 class="card-title">Tilføj en note</h5> <p class="card-text">Beskriv din erfaring herunder.</p>
-	{% include 'add_comment.html' %}
-</div>
-</div>
-<br>
-<div class="alert alert-warning">
-{% if not customer_record.comments.all %}
-<strong>OBS!</strong>
-		Ingen noter endnu <a href="{% url 'add_comment1' customer_record.pk %}">Tilføj en note</a>
-</div>
-
-{% else %}
-<h6><strong>Noter</strong></h6>
-{% for comment in customer_record.comments.all|dictsortreversed:"created_on" %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <div class="card-title">{{ comment.user }}</div>
-      <p class="card-text">{{ comment.created_on }}</p>
-      <p class="card-text">{{ comment.body|linebreaks }}</p>
-	  {% if user == comment.user %}
-	  {% include 'edit_comment.html' %}
-	{% endif %}
+  <div class="activity-buttons">
+    <button class="activity-button active" data-activity="all">All</button>
+    <button class="activity-button" data-activity="salg">Salg</button>
+    <button class="activity-button" data-activity="økonomi">Økonomisk flow</button>
+    <button class="activity-button" data-activity="dokumenter">Dokumenter</button>
+  </div>
+  <div class="activity-content active" data-activity="all">
+    <div class="circle-container">
+      <div class="circle active"></div>
+      <div class="circle"></div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Kontaktperson</div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.Kontaktperson }}</div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Telefonnummer</div>
+      </div>
+      <div class="activity-item-content"><a href="tel:+45{{ customer_record.Telefonnummer }}" style="color: black;">{{ customer_record.Telefonnummer }}</a></div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Mail</div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.Mail }}</div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Resights</div>
+      </div>
+      <div class="activity-item-content"><a href="{{ customer_record.Resights }}" target="_blank" style="color: blue;">Resights</a></div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Kommune</div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.Kommune }}</div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Region</div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.Region }}</div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Kommuneplan</div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.Kommuneplan }}</div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Lokalplan</div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.Lokalplan }}</div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Formål</div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.Formaal }}</div>
+    </div>
+    <div class="activity-item" data-activity="all">
+      <div class="activity-item-header">
+        <div class="activity-item-title">M<sup>2</sup></div>
+      </div>
+      <div class="activity-item-content">{{ customer_record.m2 }}</div>
     </div>
   </div>
-{% endfor %}
-
-{% endif %}
-
-</div> 
-</div> </div>
+  <div class="activity-content" data-activity="salg">
+    <div class="activity-item" data-activity="salg">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Salg Item 1</div>
+        <div>2022-01-03 12:00:00</div>
+      </div>
+      <div class="activity-item-content">This is the content of salg item 1.</div>
+    </div>
+    <div class="activity-item" data-activity="salg">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Salg Item 2</div>
+        <div>2022-01-04 12:00:00</div>
+      </div>
+      <div class="activity-item-content">This is the content of salg item 2.</div>
+    </div>
+  </div>
+  <div class="activity-content" data-activity="økonomi">
+    <div class="activity-item" data-activity="økonomi">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Økonomi Item 1</div>
+        <div>2022-01-03 12:00:00</div>
+      </div>
+      <div class="activity-item-content">This is the content of Økonomi item 1.</div>
+    </div>
+    <div class="activity-item" data-activity="økonomi">
+      <div class="activity-item-header">
+        <div class="activity-item-title">Økonomi Item 2</div>
+        <div>2022-01-04 12:00:00</div>
+      </div>
+      <div class="activity-item-content">This is the content of Økonomi item 2.</div>
+    </div>
+  </div>
+  <div class="activity-content" data-activity="dokumenter">
+    <div class="activity-item" data-activity="dokumenter">
 <div class="container3">
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
-<body>
-<div class="folder-tree-wrapper" style = "border: 1px solid #ddd;">
-	<div class="card-header">
-		<h5>Dokumenter</h5>
-	</div>
-	<ul class="folder-tree">
-		{% for folder in folders %}
-			{% if folder.name == 'Aftaler' %}
-				<li>
-					<i class="fa fa-folder"></i>
-					<a href="{% url 'open_folder' folder.pk %}">{{folder.name}}</a>
-					<div class="arrow"><i class="fa fa-angle-down"></i></div>
-					{% for file in folder.allfiles.all %}
-					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.file_url}}" target="_blank">{{ file }}</a></li>
-					</ul>
-					{% endfor %}
-			{% endif %}
-			{% if folder.name == 'Økonomi' %}
-				<li>
-					<i class="fa fa-folder"></i>
-					<a href="{% url 'open_folder' folder.pk %}">{{folder.name}}</a>
-					<div class="arrow"><i class="fa fa-angle-down"></i></div>
-					{% for file in folder.allfiles.all %}
-					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.file_url}}" target="_blank">{{ file }}</a></li>
-					</ul>
-					{% endfor %}
-			{% endif %}
-			{% if folder.name == 'Planer' %}
-				<li>
-					<i class="fa fa-folder"></i>
-					<a href="{% url 'open_folder' folder.pk %}">{{folder.name}}</a>
-					<div class="arrow"><i class="fa fa-angle-down"></i></div>
-					{% for file in folder.allfiles.all %}
-					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.file_url}}" target="_blank">{{ file }}</a></li>
-					</ul>
-					{% endfor %}
-			{% endif %}
-			{% if folder.name == 'Bilag' %}
-				<li>
-					<i class="fa fa-folder"></i>
-					<a href="{% url 'open_folder' folder.pk %}">{{folder.name}}</a>
-					<div class="arrow"><i class="fa fa-angle-down"></i></div>
-					{% for file in folder.allfiles.all %}
-					<ul>
-						<li><i class="folderlist"></i>	<a href="{{file.file_url}}" target="_blank">{{ file }}</a></li>
-					</ul>
-					{% endfor %}
-			{% endif %}
-		{% endfor %}
-	</ul>
-	{% include 'upload_file.html' %}
+<div class="folder-tree-wrapper">
+  <ul class="folder-tree">
+    {% for folder in folders %}
+      {% if folder.name == 'Aftaler' %}
+        <li>
+          <i class="fa fa-folder"></i>
+          <i class="name_folder" style="color: black;">{{folder.name}}</i>
+          <div class="arrow"><i class="fa fa-angle-down"></i></div>
+          {% for file in folder.allfiles.all %}
+          <ul>
+            <li><i class="folderlist"></i>  <a href="{{file.file_url}}" target="_blank">{{ file }}</a> {% include 'delete_file.html' %}</li>
+          </ul>
+          {% endfor %}
+      {% endif %}
+      {% if folder.name == 'Økonomi' %}
+        <li>
+          <i class="fa fa-folder"></i>
+          <i class="name_folder" style="color: black;">{{folder.name}}</i>
+          <div class="arrow"><i class="fa fa-angle-down"></i></div>
+          {% for file in folder.allfiles.all %}
+          <ul>
+            <li><i class="folderlist"></i>  <a href="{{file.file_url}}" target="_blank">{{ file }}</a> {% include 'delete_file.html' %}</li>
+          </ul>
+          {% endfor %}
+      {% endif %}
+      {% if folder.name == 'Planer' %}
+        <li>
+          <i class="fa fa-folder"></i>
+          <i class="name_folder" style="color: black;">{{folder.name}}</i>
+          <div class="arrow"><i class="fa fa-angle-down"></i></div>
+          {% for file in folder.allfiles.all %}
+          <ul>
+            <li><i class="folderlist"></i>  <a href="{{file.file_url}}" target="_blank">{{ file }}</a> {% include 'delete_file.html' %}</li>
+          </ul>
+          {% endfor %}
+      {% endif %}
+      {% if folder.name == 'Bilag' %}
+        <li>
+          <i class="fa fa-folder"></i>
+          <i class="name_folder" style="color: black;">{{folder.name}}</i>
+          <div class="arrow"><i class="fa fa-angle-down"></i></div>
+          {% for file in folder.allfiles.all %}
+          <ul>
+            <li><i class="folderlist"></i>  <a href="{{file.file_url}}" target="_blank">{{ file }}</a> {% include 'delete_file.html' %}</li>
+          </ul>
+          {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </ul>
 </div>
 
-	<script> $(function() {
+  <script> $(function() {
   $('.folder-tree li').click(function(evt) {
         evt.stopPropagation();
         $(this).toggleClass('expanded');
     });
 });</script>
-</body>
-
+<br>
+<div class="uploadfiles">  
+  {% include 'upload_file.html' %}
 </div>
-<br>
-<br>
-<style type="text/css">
-	
-</style>
-{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>

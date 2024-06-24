@@ -1,0 +1,253 @@
+.container1 {
+    background-color: #102B25;
+    color: #FFFFFF;
+    height: 150px;
+    width: 100%;
+    position: relative;
+    font: 1.2em "Fira Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-sizing: border-box; /* Add this line */
+  }
+  
+  body {
+    background: linear-gradient(to bottom, #102B25 0%, #102B25 158px, #ffffff 158px);
+  }
+  
+  .container2 {
+    background-color: #ffffff;
+    font: 1.2em "Fira Sans", sans-serif;
+  }
+  
+  .return-arrow {
+    font-size: 30px; /* increased font size to make the arrow larger */
+    cursor: pointer;
+    position: absolute;
+    color: #FFFFFF;
+    top: 25px; /* adjusted top position to make the arrow longer */
+    left: 16px; /* adjusted left position to make the arrow longer */
+    transform: translateY(-50%);
+    transition: transform 0.5s; /* added transition to make the arrow softer */
+  }
+  
+  .modal-header {
+    color: black;
+  }
+  
+  .deleterecord {
+    position: absolute;
+    top: 14px;
+    right: 45px; /* adjust this value to change the gap between the ellipsis and the comments */
+  }
+  
+  .comments {
+    position: absolute;
+    top: 14px;
+    right: 78.5px;
+  }
+  
+  .update {
+    position: absolute;
+    top: 14px;
+    right: 115px;
+  }
+  
+  
+  .ellipsis {
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    transform: translateY(-50%);
+  }
+  
+  .ellipsis:hover {
+    color: #87A7A7;
+  }
+  
+  .dropdown {
+    display: none;
+    position: absolute; 
+    top: 66px; 
+    left: 94.5%; /* Adjust the left position to align with the right side of the page */
+    font-size: 12px;
+    background-color: #1E5045;
+    padding: 10px;
+    border-radius: 5px;
+    width: 70px; 
+  }
+  
+  .dropdown-parent {
+    position: relative; /* Make the parent element position relative */
+    /* Any other styles you need for the parent element can be added here */
+  }
+  
+  .dropdown.active {
+    display: block;
+  }
+  
+  .dropdown-item {
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #000033;
+    color: #00CC00;
+  }
+  
+  .profile-info {
+    margin-left: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    float: left;
+  }
+  
+  .profile-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  .profile-title {
+    font-size: 12px;
+  }
+  
+  .info-section {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    margin-bottom: 20px;
+    margin-left: 16px;
+    margin-top: 5px;
+  }
+  
+  .info-label {
+    font-size: 13px;
+    font-weight: bold;
+  }
+  
+  .info-value {
+    font-size: 12px;
+  }
+  
+  
+  .score-arrow {
+    font-size: 12px;
+    color: #00CC00;
+  }
+  
+  .activity-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .activity-button {
+    flex: 1;
+    text-align: center;
+    padding: 5px;
+    border-radius: 0px;
+    cursor: pointer;
+    border: 1px solid #CCCCCC;
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+  
+  .activity-button:hover {
+    background-color: #CCCCCC;
+    color: #000000;
+  }
+  
+  .activity-button.active {
+    background-color: #CCCCCC;
+    color: #000000;
+    border-bottom: 0.5px solid #000033;
+  }
+  
+  .activity-content {
+    display: none;
+  }
+  
+  .activity-content.active {
+    display: block;
+  }
+  
+  .activity-item {
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .activity-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .activity-item-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .activity-item-content {
+    margin-top: 10px;
+  }
+  
+  .circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #87A7A7; /* lighter shade of #102B25 */
+    display: inline-block;
+    margin: 5px;
+  }
+  
+  .circle.active {
+    background-color: #102B25;
+  }
+  
+  .circle-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .element-set {
+    display: none;
+  }
+  
+  .folder-tree { list-style: none; cursor: pointer; padding-left: 20px; }
+  .folder-tree li { margin-bottom: 10px; font-size: 16px; transition: all .4s ease; position: relative; }
+  .folder-tree li:hover {  }
+  .folder-tree li i { color: rgb(242, 176, 53); }
+  .folder-tree li ul { padding-left: 10px; padding-top: 8px; }
+  .folder-tree ul { display: none; position: relative; }
+  .folder-tree ul:before { position: absolute; content: ''; left: -10px; top: 0; width: 2px; height: 100%; background-color: transparent; border-left: dashed 1px #c2c2c2; border-bottom: dashed 1px #c2c2c2; }
+  .folder-tree li ul li { display: block; margin-bottom: 8px; }
+  .folder-tree .arrow { position: absolute; top: 7px; left: -20px; width: 8px; height: 8px; transition: all .4s ease; transform: rotate(-90deg); }
+  .folder-tree .arrow i { color: #595959; transition: all .4s ease; }
+  .folder-tree .arrow:hover i { color: #292929; }
+  .folder-tree li.expanded > ul { display: block; }
+  .folder-tree li.expanded > .arrow { transform: rotate(0deg); top: 0.5px;}
+  
+  .uploadfiles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+  
+  

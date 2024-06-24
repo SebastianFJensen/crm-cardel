@@ -1,10 +1,22 @@
-{% block content %}
+<a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash-can" style="color: white;"></i></a>
 
-<form method="post" action="{% url 'delete_record' pk=customer_record.pk %}">
-	{% csrf_token %}
-	<p>Er du sikker på at du vil slette registreringen?</p>
-	<button type="submit" class="btn btn-danger">Slet</button>
-	<a href="{% url 'Record' pk=customer_record.pk %}" class="btn btn-secondary">Annuller</a>
-</form>
-
-{% endblock %}
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'delete_record' pk=customer_record.pk %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Slet registrering</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="color: black;">
+          <p>Er du sikker på at du vil slette registeringen?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuller</button>
+          <button type="submit" class="btn btn-danger">Slet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

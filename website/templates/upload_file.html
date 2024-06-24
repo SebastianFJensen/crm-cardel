@@ -1,53 +1,157 @@
-<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-	Upload fil
-</button>
+<div class="drop-zone" data-bs-toggle="modal" data-bs-target="#exampleModal" ondragenter="handleDragEnter(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+  <i class="fa-solid fa-cloud-arrow-up"></i>
+  <div class="drop-zone-box"></div>
+</div>
 
-<form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
-  {% csrf_token %}
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Upload fil</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" ondragenter="handleDragEnter(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" data-files-dropped="false">
-          <input type="file" name="uploadfile[]" multiple draggable>
-          <input type="hidden" name="fid" value="{{folder.pk}}">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload fil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="file" name="uploadfile[]" multiple draggable id="fileInput">
+          <select name="fid">
+            {% for folder in folders %}
+              <option value="{{ folder.pk }}">{{ folder.name }}</option>
+            {% endfor %}
+          </select>
         </div>
         <div class="modal-footer">
-          <input type="submit" name="Upload">
+          <input type="submit" value="Upload">
         </div>
-      </div>
+      </form>
     </div>
   </div>
-</form>
+</div>
+
+<!-- Add a spinner container -->
+<div class="spinner-container" style="display: none;">
+  <div class="spinner">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <p>Uploading...</p>
+  </div>
+</div>
 
 <script type="text/javascript">
   let filesDropped = false;
+  let uploading = false;
 
-function handleDrop(event) {
-  event.preventDefault();
-  event.stopPropagation();
-  const modalBody = document.querySelector('.modal-body');
-  modalBody.classList.remove('drag-over');
-  filesDropped = true;
-  const files = event.dataTransfer.files;
-  const input = document.querySelector('input[type="file"]');
-  input.files = files;
-}
-
-document.querySelector('.modal-footer input[type="submit"]').addEventListener('click', () => {
-  if (filesDropped) {
-    const input = document.querySelector('input[type="file"]');
-    const form = input.closest('form');
-    form.submit();
+  function handleDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const modalBody = document.querySelector('.modal-body');
+    modalBody.classList.remove('drag-over');
+    filesDropped = true;
+    const files = event.dataTransfer.files;
+    const input = document.querySelector('#fileInput');
+    input.files = files;
+    $('#exampleModal').modal('show'); // show the modal
   }
-});
+
+  function handleDragEnter(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const modalBody = document.querySelector('.modal-body');
+    modalBody.classList.add('drag-over');
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function handleDragLeave(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const modalBody = document.querySelector('.modal-body');
+    modalBody.classList.remove('drag-over');
+  }
+
+  document.querySelector('.drop-zone').addEventListener('click', () => {
+    $('#exampleModal').modal('show'); // show the modal on click
+  });
+
+  document.querySelector('#fileInput').addEventListener('change', () => {
+    filesDropped = true;
+  });
+
+  document.querySelector('.modal-footer input[type="submit"]').addEventListener('click', () => {
+    const input = document.querySelector('#fileInput');
+    const form = input.closest('form');
+    uploading = true;
+    // Close the modal
+    $('#exampleModal').modal('hide');
+    // Show the spinner
+    document.querySelector('.spinner-container').style.display = 'block';
+    form.submit();
+
+    // Update lastActiveActivity value
+    form.addEventListener('submit', () => {
+      localStorage.setItem('lastActiveActivity', 'Dokumenter');
+    });
+  });
 </script>
 
 <style type="text/css">
   #exampleModal.drag-over {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
+  }
+.drop-zone {
+    width: 700px;
+    height: 250px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+.drag-over {
+    background-color: #f5f5f5;
+  }
+.spinner-container {
+  position: fixed;
+  top: 150px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 150px);
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    justify-content: center;
+    display: inline-block;
+    vertical-align: text-bottom;
+    -webkit-animation: spinner-border 0.75s linear infinite;
+    animation: spinner-border 0.75s linear infinite;
+  }
+  @-webkit-keyframes spinner-border {
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @keyframes spinner-border {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 </style>
