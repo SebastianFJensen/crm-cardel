@@ -16,6 +16,10 @@
   <a href="{% url 'archived' %}" style="color: #FFFFFF;">
     <span class="return-arrow">&#8592;</span>
   </a>
+{% elif customer_record.Status == 'Lead' %}
+	<a href="{% url 'lead' %}" style="color: #FFFFFF;">
+    	<span class="return-arrow">&#8592;</span>
+	</a>
 {% else %}
   <a href="{% url 'home' %}" style="color: #FFFFFF;">
     <span class="return-arrow">&#8592;</span>
