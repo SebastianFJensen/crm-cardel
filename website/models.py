@@ -76,6 +76,15 @@ class Record(models.Model):
 
     def __str__(self):
         return(f"{self.BFE_Nummer}")
+    
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.areal_bm2 is None:
+            self.areal_bm2 = ''
+        if self.m2 is None:
+            self.m2 = ''
+
 
 
 class Comment(models.Model):
