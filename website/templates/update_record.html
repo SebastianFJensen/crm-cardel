@@ -231,14 +231,13 @@
               
                   function calculateArealBm2() {
                     if (m2Input.value!== '' &&!isNaN(m2Input.value)) {
+                      let bebyggelsesprocent = 20;
                       if (bebyggelsesprocentInput.value!== '' &&!isNaN(bebyggelsesprocentInput.value)) {
-                        const m2 = parseFloat(m2Input.value);
-                        const bebyggelsesprocent = parseFloat(bebyggelsesprocentInput.value);
-                        const arealBm2 = m2 * (bebyggelsesprocent / 100);
-                        arealBm2Input.value = Math.max(arealBm2, m2 * 0.2).toFixed(0);
-                      } else {
-                        arealBm2Input.value = (m2 * 0.2).toFixed(0);
+                        bebyggelsesprocent = parseFloat(bebyggelsesprocentInput.value);
                       }
+                      const m2 = parseFloat(m2Input.value);
+                      const arealBm2 = m2 * (bebyggelsesprocent / 100);
+                      arealBm2Input.value = arealBm2.toFixed(0);
                     } else {
                       arealBm2Input.value = '';
                     }
