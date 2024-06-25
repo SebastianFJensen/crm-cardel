@@ -68,6 +68,10 @@ class Record(models.Model):
     Forfaldsdato = models.DateField(null=True, blank=True)
     Opfølgningsdato = models.DateField(null=True, blank=True)
     Resights = models.URLField(max_length=200, blank=True)
+    Bebyggelsesprocent = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
+    areal_bm2 = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
+    Byggemeterpris = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
+    Salgssum = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
     id = models.BigAutoField(primary_key=True)
 
     def __str__(self):
@@ -124,3 +128,18 @@ class File(models.Model):
 
     def __str__(self):
         return f"{self.files}"
+    
+class Almene_kvoter(models.Model):
+    Grundkapital = [
+        ('Vælg', 'Vælg'),
+        ('Ja', 'Ja'),
+        ('Nej', 'Nej'),
+        ('Ingen info', 'Ingen info'),
+    ]
+    Kommune = models.CharField(max_length=40, null=True)
+    Region = models.CharField(max_length=30, null=True)
+    Grundkapital = models.CharField(max_length=30, choices=Grundkapital, null=True, blank=True)
+    Yderligere_info = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.Kommune}"
