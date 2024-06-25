@@ -10,7 +10,7 @@
   <a href="{% url 'home' %}" style="color: #FFFFFF;">
     <span class="return-arrow">&#8592;</span>
   </a>
-  {% elif customer_record.Status != 'Lost' and customer_record.Status != 'Lukket aftale' and customer_record.Status != 'Lead' %}
+{% elif customer_record.Status != 'Lost' and customer_record.Status != 'Lukket aftale' %}
   <a href="{% url 'prospects' %}" style="color: #FFFFFF;">
     <span class="return-arrow">&#8592;</span>
   </a>
