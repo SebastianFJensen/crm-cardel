@@ -191,75 +191,78 @@
                 </div>
               </div>
               <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                  const statusSelect = document.getElementById('id_Status');
-                  const lukketAftaleStatusWrapper = document.getElementById('lukket-aftale-status-wrapper');
-                  const moedestatusWrapper = document.getElementById('moedestatus-wrapper');
-                  const forfaldsdatoInput = document.getElementById('forfaldsdato-input-wrapper');
-                  const opfolgningsdatoInput = document.getElementById('opfolgningsdato-input-wrapper');
-              
-                  statusSelect.addEventListener('change', function() {
-                    if (this.value === 'Lukket aftale') {
-                      lukketAftaleStatusWrapper.style.display = 'block';
-                      moedestatusWrapper.style.display = 'none';
-                      forfaldsdatoInput.style.display = 'block';
-                      opfolgningsdatoInput.style.display = 'none';
-                    } else if (this.value === 'Møde booket') {
-                      lukketAftaleStatusWrapper.style.display = 'none';
-                      moedestatusWrapper.style.display = 'block';
-                      forfaldsdatoInput.style.display = 'none';
-                      opfolgningsdatoInput.style.display = 'block';
-                    } else {
-                      lukketAftaleStatusWrapper.style.display = 'none';
-                      moedestatusWrapper.style.display = 'none';
-                      forfaldsdatoInput.style.display = 'none';
-                      opfolgningsdatoInput.style.display = 'block';
-                    }
-                    calculateArealBm2(); // Calculate areal_bm2 when the modal opens
-                  });
-                  statusSelect.dispatchEvent(new Event('change'));
-              
-                  const m2Input = document.getElementById('id_m2');
-                  const bebyggelsesprocentInput = document.getElementById('id_Bebyggelsesprocent');
-                  const arealBm2Input = document.getElementById('id_areal_bm2');
-                  const byggemeterprisInput = document.getElementById('id_Byggemeterpris');
-                  const salgssumInput = document.getElementById('id_Salgssum');
-              
-                  m2Input.addEventListener('input', calculateArealBm2);
-                  bebyggelsesprocentInput.addEventListener('input', calculateArealBm2);
-              
-                  function calculateArealBm2() {
-                    if (m2Input.value && !isNaN(m2Input.value)) {
-                      let bebyggelsesprocent = bebyggelsesprocentInput.value === '' ? 20 : parseFloat(bebyggelsesprocentInput.value);
-                      const m2 = parseFloat(m2Input.value);
-                      const arealBm2 = m2 * (bebyggelsesprocent / 100);
-                      arealBm2Input.value = arealBm2.toFixed(0);
-                    } else {
-                      arealBm2Input.value = '0';
-                    }
-                    calculateSalgssum(); // Call calculateSalgssum after calculating areal_bm2
-                  }
-              
-                  arealBm2Input.addEventListener('input', calculateSalgssum);
-                  byggemeterprisInput.addEventListener('input', calculateSalgssum);
-              
-                  function calculateSalgssum() {
-                    if (arealBm2Input.value && !isNaN(arealBm2Input.value) && byggemeterprisInput.value && !isNaN(byggemeterprisInput.value)) {
-                      const arealBm2 = parseFloat(arealBm2Input.value);
-                      const byggemeterpris = parseFloat(byggemeterprisInput.value);
-                      const salgssum = arealBm2 * byggemeterpris;
-                      salgssumInput.value = salgssum.toFixed(0);
-                    } else {
-                      salgssumInput.value = '0';
-                    }
-                  }
-              
-                  document.getElementById('id_Bebyggelsesprocent').addEventListener('input', function() {
-                    if (this.value > 100) {
-                      this.value = 100;
-                    }
-                  });
-                });
+document.addEventListener("DOMContentLoaded", function() {
+  const modal = document.getElementById('updateModal');
+  modal.addEventListener('show.bs.modal', function() {
+    const statusSelect = document.getElementById('id_Status');
+    const lukketAftaleStatusWrapper = document.getElementById('lukket-aftale-status-wrapper');
+    const moedestatusWrapper = document.getElementById('moedestatus-wrapper');
+    const forfaldsdatoInput = document.getElementById('forfaldsdato-input-wrapper');
+    const opfolgningsdatoInput = document.getElementById('opfolgningsdato-input-wrapper');
+
+    statusSelect.addEventListener('change', function() {
+      if (this.value === 'Lukket aftale') {
+        lukketAftaleStatusWrapper.style.display = 'block';
+        moedestatusWrapper.style.display = 'none';
+        forfaldsdatoInput.style.display = 'block';
+        opfolgningsdatoInput.style.display = 'none';
+      } else if (this.value === 'Møde booket') {
+        lukketAftaleStatusWrapper.style.display = 'none';
+        moedestatusWrapper.style.display = 'block';
+        forfaldsdatoInput.style.display = 'none';
+        opfolgningsdatoInput.style.display = 'block';
+      } else {
+        lukketAftaleStatusWrapper.style.display = 'none';
+        moedestatusWrapper.style.display = 'none';
+        forfaldsdatoInput.style.display = 'none';
+        opfolgningsdatoInput.style.display = 'block';
+      }
+      calculateArealBm2(); // Calculate areal_bm2 when the modal opens
+    });
+    statusSelect.dispatchEvent(new Event('change'));
+
+    const m2Input = document.getElementById('id_m2');
+    const bebyggelsesprocentInput = document.getElementById('id_Bebyggelsesprocent');
+    const arealBm2Input = document.getElementById('id_areal_bm2');
+    const byggemeterprisInput = document.getElementById('id_Byggemeterpris');
+    const salgssumInput = document.getElementById('id_Salgssum');
+
+    m2Input.addEventListener('input', calculateArealBm2);
+    bebyggelsesprocentInput.addEventListener('input', calculateArealBm2);
+
+    function calculateArealBm2() {
+      if (m2Input.value && !isNaN(m2Input.value)) {
+        let bebyggelsesprocent = bebyggelsesprocentInput.value === '' ? 20 : parseFloat(bebyggelsesprocentInput.value);
+        const m2 = parseFloat(m2Input.value);
+        const arealBm2 = m2 * (bebyggelsesprocent / 100);
+        arealBm2Input.value = arealBm2.toFixed(0);
+      } else {
+        arealBm2Input.value = '0';
+      }
+      calculateSalgssum(); // Call calculateSalgssum after calculating areal_bm2
+    }
+
+    arealBm2Input.addEventListener('input', calculateSalgssum);
+    byggemeterprisInput.addEventListener('input', calculateSalgssum);
+
+    function calculateSalgssum() {
+      if (arealBm2Input.value && !isNaN(arealBm2Input.value) && byggemeterprisInput.value && !isNaN(byggemeterprisInput.value)) {
+        const arealBm2 = parseFloat(arealBm2Input.value);
+        const byggemeterpris = parseFloat(byggemeterprisInput.value);
+        const salgssum = arealBm2 * byggemeterpris;
+        salgssumInput.value = salgssum.toFixed(0);
+      } else {
+        salgssumInput.value = '0';
+      }
+    }
+
+    document.getElementById('id_Bebyggelsesprocent').addEventListener('input', function() {
+      if (this.value > 100) {
+        this.value = 100;
+      }
+    });
+  });
+});
               </script>
             </div>
             <div class="modal-footer">
