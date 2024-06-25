@@ -226,15 +226,10 @@
               
                   m2Input.addEventListener('input', calculateArealBm2);
                   bebyggelsesprocentInput.addEventListener('input', calculateArealBm2);
-                  arealBm2Input.addEventListener('input', calculateSalgssum);
-                  byggemeterprisInput.addEventListener('input', calculateSalgssum);
               
                   function calculateArealBm2() {
                     if (m2Input.value!== '' &&!isNaN(m2Input.value)) {
-                      let bebyggelsesprocent = 20;
-                      if (bebyggelsesprocentInput.value!== '' &&!isNaN(bebyggelsesprocentInput.value)) {
-                        bebyggelsesprocent = parseFloat(bebyggelsesprocentInput.value);
-                      }
+                      let bebyggelsesprocent = bebyggelsesprocentInput.value === '' ? 20 : parseFloat(bebyggelsesprocentInput.value);
                       const m2 = parseFloat(m2Input.value);
                       const arealBm2 = m2 * (bebyggelsesprocent / 100);
                       arealBm2Input.value = arealBm2.toFixed(0);
@@ -243,12 +238,12 @@
                     }
                   }
               
+                  arealBm2Input.addEventListener('input', calculateSalgssum);
+                  byggemeterprisInput.addEventListener('input', calculateSalgssum);
+              
                   function calculateSalgssum() {
                     if (arealBm2Input.value!== '' && arealBm2Input.value!== 'None' &&!isNaN(arealBm2Input.value)) {
-                      let byggemeterpris = 0;
-                      if (byggemeterprisInput.value!== '' &&!isNaN(byggemeterprisInput.value)) {
-                        byggemeterpris = parseFloat(byggemeterprisInput.value);
-                      }
+                      let byggemeterpris = byggemeterprisInput.value === '' ? 0 : parseFloat(byggemeterprisInput.value);
                       const arealBm2 = parseFloat(arealBm2Input.value);
                       const salgssum = arealBm2 * byggemeterpris;
                       salgssumInput.value = salgssum.toFixed(0);
