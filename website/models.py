@@ -33,7 +33,7 @@ class Record(models.Model):
         ('Lukket aftale', 'LUKKET AFTALE'),
         ('Lost', 'LOST'),
     ]
-    Lukket_aftale_Status = [
+    Aftale = [
         ('Vælg', 'Vælg'),
         ('Option forlænges', 'OPTION FORLÆNGES'),
         ('Forhandlinger HoT', 'FORHANDLINGER HoT'),
@@ -42,7 +42,7 @@ class Record(models.Model):
         ('Underskrevet SPA', 'UNDERSKREVET SPA'), 
         ('Lukket sag', 'LUKKET SAG'),
     ]
-    Moedestatus = [
+    Mstatus = [
     ('Møde booket', 'Møde booket'),
     ('Ombook', 'Ombook'),
     ('Møde aflyst', 'Møde aflyst'),
@@ -58,6 +58,10 @@ class Record(models.Model):
     Mail = models.CharField(max_length=60, blank=True, null=True)
     Telefonnummer = models.CharField(max_length=20, blank=True, null=True)
     m2 = models.CharField(max_length=20, null=True, blank=True)
+    Bebyggelsesprocent = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
+    areal_bm2 = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
+    Byggemeterpris = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
+    Salgssum = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
     Kommuneplan = models.CharField(max_length=20, null=True, blank=True)
     Lokalplan = models.CharField(max_length=20, null=True, blank=True)
     Formaal = models.CharField(max_length=50, null=True, blank=True)
