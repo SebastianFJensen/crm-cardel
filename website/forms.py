@@ -21,6 +21,11 @@ class AddRecordForms(forms.ModelForm):
     Opfølgningsdato = forms.DateField(required=False, input_formats=['%Y-%m-%d'], widget=forms.widgets.TextInput(attrs={"placeholder":"Opfølgningsdato", 'autocomplete':'off', "class":"form-control"}))
 
 
+    class Meta:
+        model = Record
+        exclude = ("user",)
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
