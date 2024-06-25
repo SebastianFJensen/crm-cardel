@@ -230,24 +230,28 @@
                   byggemeterprisInput.addEventListener('input', calculateSalgssum);
               
                   function calculateArealBm2() {
-                    if (m2Input.value && bebyggelsesprocentInput.value) {
-                      const m2 = parseFloat(m2Input.value);
-                      const bebyggelsesprocent = parseFloat(bebyggelsesprocentInput.value);
-                      const arealBm2 = m2 * (bebyggelsesprocent / 100);
-                      arealBm2Input.value = arealBm2.toFixed(0);
+                    if (m2Input.value!== '' &&!isNaN(m2Input.value)) {
+                      if (bebyggelsesprocentInput.value!== '' &&!isNaN(bebyggelsesprocentInput.value)) {
+                        const m2 = parseFloat(m2Input.value);
+                        const bebyggelsesprocent = parseFloat(bebyggelsesprocentInput.value);
+                        const arealBm2 = m2 * (bebyggelsesprocent / 100);
+                        arealBm2Input.value = Math.max(arealBm2, m2 * 0.2).toFixed(0);
+                      } else {
+                        arealBm2Input.value = (m2 * 0.2).toFixed(0);
+                      }
                     } else {
-                      arealBm2Input.value = 0.2 * (m2Input.value || 0); // default to 20% of m2 if bebyggelsesprocent is not filled out
+                      arealBm2Input.value = '';
                     }
                   }
               
                   function calculateSalgssum() {
-                    if (arealBm2Input.value && byggemeterprisInput.value) {
+                    if (arealBm2Input.value!== '' && arealBm2Input.value!== 'None' &&!isNaN(arealBm2Input.value) && byggemeterprisInput.value!== '' &&!isNaN(byggemeterprisInput.value)) {
                       const arealBm2 = parseFloat(arealBm2Input.value);
                       const byggemeterpris = parseFloat(byggemeterprisInput.value);
                       const salgssum = arealBm2 * byggemeterpris;
                       salgssumInput.value = salgssum.toFixed(0);
                     } else {
-                      salgssumInput.value = 0;
+                      salgssumInput.value = '';
                     }
                   }
               
