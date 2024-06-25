@@ -68,10 +68,6 @@ class Record(models.Model):
     Forfaldsdato = models.DateField(null=True, blank=True)
     Opfølgningsdato = models.DateField(null=True, blank=True)
     Resights = models.URLField(max_length=200, blank=True)
-    Bebyggelsesprocent = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
-    areal_bm2 = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
-    Byggemeterpris = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
-    Salgssum = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
     id = models.BigAutoField(primary_key=True)
 
     def __str__(self):
