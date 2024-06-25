@@ -196,8 +196,8 @@
                   const lukketAftaleStatusWrapper = document.getElementById('lukket-aftale-status-wrapper');
                   const moedestatusWrapper = document.getElementById('moedestatus-wrapper');
                   const forfaldsdatoInput = document.getElementById('forfaldsdato-input-wrapper');
-                  const opfolgningsdatoInput = document.getElementById('opfolgningsdato-input-wrapper'); // get the parent node of the input field
-
+                  const opfolgningsdatoInput = document.getElementById('opfolgningsdato-input-wrapper');
+              
                   statusSelect.addEventListener('change', function() {
                     if (this.value === 'Lukket aftale') {
                       lukketAftaleStatusWrapper.style.display = 'block';
@@ -217,15 +217,18 @@
                     }
                   });
                   statusSelect.dispatchEvent(new Event('change'));
-                });
-                document.addEventListener("DOMContentLoaded", function() {
+              
                   const m2Input = document.getElementById('id_m2');
                   const bebyggelsesprocentInput = document.getElementById('id_Bebyggelsesprocent');
                   const arealBm2Input = document.getElementById('id_areal_bm2');
-
+                  const byggemeterprisInput = document.getElementById('id_Byggemeterpris');
+                  const salgssumInput = document.getElementById('id_Salgssum');
+              
                   m2Input.addEventListener('input', calculateArealBm2);
                   bebyggelsesprocentInput.addEventListener('input', calculateArealBm2);
-
+                  arealBm2Input.addEventListener('input', calculateSalgssum);
+                  byggemeterprisInput.addEventListener('input', calculateSalgssum);
+              
                   function calculateArealBm2() {
                     if (m2Input.value && bebyggelsesprocentInput.value) {
                       const m2 = parseFloat(m2Input.value);
@@ -233,25 +236,10 @@
                       const arealBm2 = m2 * (bebyggelsesprocent / 100);
                       arealBm2Input.value = arealBm2.toFixed(0);
                     } else {
-                    arealBm2Input.value = 0.2 * (m2Input.value || 0); // default to 20% of m2 if bebyggelsesprocent is not filled out
+                      arealBm2Input.value = 0.2 * (m2Input.value || 0); // default to 20% of m2 if bebyggelsesprocent is not filled out
+                    }
                   }
-                }
-              });
-                document.getElementById('id_Bebyggelsesprocent').addEventListener('input', function() {
-                  if (this.value > 100) {
-                    this.value = 100;
-                  }
-                });
-                document.addEventListener("DOMContentLoaded", function() {
-                  const bebyggelsesprocentInput = document.getElementById('id_Bebyggelsesprocent');
-                  const arealBm2Input = document.getElementById('id_areal_bm2');
-                  const byggemeterprisInput = document.getElementById('id_Byggemeterpris');
-                  const salgssumInput = document.getElementById('id_Salgssum');
-
-                  bebyggelsesprocentInput.addEventListener('input', calculateSalgssum);
-                  arealBm2Input.addEventListener('input', calculateSalgssum);
-                  byggemeterprisInput.addEventListener('input', calculateSalgssum);
-
+              
                   function calculateSalgssum() {
                     if (arealBm2Input.value && byggemeterprisInput.value) {
                       const arealBm2 = parseFloat(arealBm2Input.value);
@@ -262,6 +250,12 @@
                       salgssumInput.value = 0;
                     }
                   }
+              
+                  document.getElementById('id_Bebyggelsesprocent').addEventListener('input', function() {
+                    if (this.value > 100) {
+                      this.value = 100;
+                    }
+                  });
                 });
               </script>
             </div>
