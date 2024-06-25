@@ -129,3 +129,17 @@ class File(models.Model):
     def __str__(self):
         return f"{self.files}"
     
+class Almene_kvoter(models.Model):
+    Grundkapital = [
+        ('Vælg', 'Vælg'),
+        ('Ja', 'Ja'),
+        ('Nej', 'Nej'),
+        ('Ingen info', 'Ingen info'),
+    ]
+    Kommune = models.CharField(max_length=40, null=True)
+    Region = models.CharField(max_length=30, null=True)
+    Grundkapital = models.CharField(max_length=30, choices=Grundkapital, null=True, blank=True)
+    Yderligere_info = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.Kommune}"
