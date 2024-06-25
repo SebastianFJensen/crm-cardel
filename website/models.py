@@ -69,8 +69,6 @@ class Record(models.Model):
     Opfølgningsdato = models.DateField(null=True, blank=True)
     Resights = models.URLField(max_length=200, blank=True)
     id = models.BigAutoField(primary_key=True)
-    areal_bm2 = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
-    Bebyggelsesprocent = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
 
     def __str__(self):
         return(f"{self.BFE_Nummer}")
