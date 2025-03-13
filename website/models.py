@@ -47,6 +47,13 @@ class Record(models.Model):
     ('Ombook', 'Ombook'),
     ('Møde aflyst', 'Møde aflyst'),
     ]
+    Lstatus = [
+        ('VÆLG', 'Vælg'),
+        ('PRIS', 'Pris'),
+        ('INGEN INTERESSE', 'ingen interesse'),
+        ('ANDEN UDVIKLER', 'Anden Udvikler'),
+        ('TABT OPTION', 'Tabt option'),
+    ]
     created_at = models.DateTimeField(auto_now_add=True)
     BFE_Nummer = models.CharField(max_length=20, null=True)
     Adresse = models.CharField(max_length=60, null=True)
@@ -67,6 +74,8 @@ class Record(models.Model):
     Lead = models.CharField(max_length=10, choices=Ansvarlig, default='Vælg')
     Forfaldsdato = models.DateField(null=True, blank=True)
     Opfølgningsdato = models.DateField(null=True, blank=True)
+    opfølgningmaaned = models.IntegerField(default=0, blank=True, null=True)
+    Tabtstatus = models.CharField(max_length=30, choices=Lstatus, null=True, blank=True)
     Resights = models.URLField(max_length=200, blank=True)
     Bebyggelsesprocent = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
     areal_bm2 = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
@@ -84,7 +93,32 @@ class Record(models.Model):
             self.areal_bm2 = ''
         if self.m2 is None:
             self.m2 = ''
+    def save(self, *args, **kwargs):
+        # Calculate the number of months based on Tabtstatus
+        if self.Tabtstatus:
+            months_mapping = {
+                'PRIS': 6,
+                'INGEN INTERESSE': 12,
+                'ANDEN UDVIKLER': 12,
+                'TABT OPTION': 12,
+            }
+            # Debugging: Print the current Tabtstatus
+            print(f"Current Tabtstatus: {self.Tabtstatus}")
 
+            # Get the number of months based on the current Tabtstatus
+            self.opfølgningmaaned = months_mapping.get(self.Tabtstatus, 0)
+
+            # Debugging: Print the calculated opfølgningmåned
+            print(f"Calculated opfølgningmaaned: {self.opfølgningmaaned}")
+
+            # Calculate the new Opfølgningsdato based on the current date
+            if self.opfølgningmaaned > 0:
+                self.Opfølgningsdato = timezone.now().date() + relativedelta(months=self.opfølgningmaaned)
+                # Debugging: Print the new Opfølgningsdato
+                print(f"Calculated Opfølgningsdato: {self.Opfølgningsdato}")
+
+        # Call the original save method
+        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
