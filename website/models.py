@@ -54,6 +54,7 @@ class Record(models.Model):
         ('ANDEN UDVIKLER', 'Anden Udvikler'),
         ('TABT OPTION', 'Tabt option'),
     ]
+    
     created_at = models.DateTimeField(auto_now_add=True)
     BFE_Nummer = models.CharField(max_length=20, null=True)
     Adresse = models.CharField(max_length=60, null=True)
