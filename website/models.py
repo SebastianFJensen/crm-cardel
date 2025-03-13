@@ -94,32 +94,6 @@ class Record(models.Model):
             self.areal_bm2 = ''
         if self.m2 is None:
             self.m2 = ''
-    def save(self, *args, **kwargs):
-        # Calculate the number of months based on Tabtstatus
-        if self.Tabtstatus:
-            months_mapping = {
-                'PRIS': 6,
-                'INGEN INTERESSE': 12,
-                'ANDEN UDVIKLER': 12,
-                'TABT OPTION': 12,
-            }
-            # Debugging: Print the current Tabtstatus
-            print(f"Current Tabtstatus: {self.Tabtstatus}")
-
-            # Get the number of months based on the current Tabtstatus
-            self.opfølgningmaaned = months_mapping.get(self.Tabtstatus, 0)
-
-            # Debugging: Print the calculated opfølgningmåned
-            print(f"Calculated opfølgningmaaned: {self.opfølgningmaaned}")
-
-            # Calculate the new Opfølgningsdato based on the current date
-            if self.opfølgningmaaned > 0:
-                self.Opfølgningsdato = timezone.now().date() + relativedelta(months=self.opfølgningmaaned)
-                # Debugging: Print the new Opfølgningsdato
-                print(f"Calculated Opfølgningsdato: {self.Opfølgningsdato}")
-
-        # Call the original save method
-        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
