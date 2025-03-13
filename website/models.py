@@ -75,7 +75,6 @@ class Record(models.Model):
     Lead = models.CharField(max_length=10, choices=Ansvarlig, default='Vælg')
     Forfaldsdato = models.DateField(null=True, blank=True)
     Opfølgningsdato = models.DateField(null=True, blank=True)
-    Tabtstatus = models.CharField(max_length=30, choices=Lstatus, null=True, blank=True)
     Resights = models.URLField(max_length=200, blank=True)
     Bebyggelsesprocent = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
     areal_bm2 = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
