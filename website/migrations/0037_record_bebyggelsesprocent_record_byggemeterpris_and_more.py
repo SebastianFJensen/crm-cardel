@@ -30,4 +30,14 @@ class Migration(migrations.Migration):
             name='areal_bm2',
             field=models.DecimalField(blank=True, decimal_places=0, max_digits=12, null=True),
         ),
+        migrations.AddField(
+            model_name='record',
+            name='Tabtstatus',
+            field=models.CharField(max_length=30, choices=Lstatus, null=True, blank=True),
+        ),
+        migrations.AddField(
+            model_name='record',
+            name='opfølgningmaaned',
+            field=models.IntegerField(default=0, blank=True, null=True),
+        ),
     ]
