@@ -7,6 +7,7 @@ import uuid
 import os
 import unicodedata
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class Record(models.Model):
@@ -80,6 +81,8 @@ class Record(models.Model):
     areal_bm2 = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
     Byggemeterpris = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
     Salgssum = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
+    Tabtstatus = models.CharField(max_length=30, choices=Lstatus, null=True, blank=True)
+    opfølgningmaaned = models.IntegerField(default=0, blank=True, null=True)
     id = models.BigAutoField(primary_key=True)
 
     def __str__(self):
