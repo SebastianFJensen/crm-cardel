@@ -11,6 +11,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='record',
             name='Tabtstatus',
-            field=models.CharField(max_length=30, choices=Lstatus, null=True, blank=True),
+            field=models.CharField(choices=[('VÆLG', 'Vælg'), ('PRIS', 'Pris'), ('INGEN INTERESSE', 'ingen interesse'), ('ANDEN UDVIKLER', 'Anden Udvikler'), ('TABT OPTION', 'Tabt option')], null=True, blank=True, max_length=30),
         ),
     ]
