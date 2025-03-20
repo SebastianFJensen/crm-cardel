@@ -6,7 +6,7 @@ from django.contrib.auth.models import User  # Import User model
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('website', '0038_file_file_url_file_uploaded_on_file_user_and_more'),
+        ('website', '0037_file_file_url_file_uploaded_on_file_user_and_more'),
     ]
 
     operations = [
