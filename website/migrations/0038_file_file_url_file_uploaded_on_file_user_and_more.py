@@ -6,6 +6,7 @@ from django.contrib.auth.models import User  # Import User model
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('website', '0037_record_bebyggelsesprocent_record_byggemeterpris_and_more'),
     ]
 
@@ -23,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='file',
             name='user',
-            field=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
     ]
