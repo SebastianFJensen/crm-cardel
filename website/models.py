@@ -99,26 +99,22 @@ class Record(models.Model):
             self.m2 = ''
 
     def save(self, *args, **kwargs):
-        # Only update Opfølgningsdato if Tabtstatus has changed
-        if self.pk:  # Check if the record already exists
-            original = Record.objects.get(pk=self.pk)
-            if original.Tabtstatus != self.Tabtstatus:
-                # Calculate the number of months based on Tabtstatus
-                if self.Tabtstatus:
-                    months_mapping = {
-                        'PRIS': 6,
-                        'INGEN INTERESSE': 12,
-                        'ANDEN UDVIKLER': 12,
-                        'TABT OPTION': 12,
-                    }
-                    # Get the number of months based on the current Tabtstatus
-                    self.opfølgningmaaned = months_mapping.get(self.Tabtstatus, 0)
+        # Calculate opfølgningmaaned based on Tabtstatus
+        if self.Tabtstatus:
+            months_mapping = {
+                'PRIS': 6,
+                'INGEN INTERESSE': 12,
+                'ANDEN UDVIKLER': 12,
+                'TABT OPTION': 12,
+            }
+            # Get the number of months based on the current Tabtstatus
+            self.opfølgningmaaned = months_mapping.get(self.Tabtstatus, 0)
 
-                    # Calculate the new Opfølgningsdato based on the current date
-                    if self.opfølgningmaaned > 0:
-                        self.Opfølgningsdato = timezone.now().date() + relativedelta(months=self.opfølgningmaaned)
+            # Calculate the new Opfølgningsdato based on the current date
+            if self.opfølgningmaaned > 0:
+                self.Opfølgningsdato = timezone.now().date() + relativedelta(months=self.opfølgningmaaned)
 
-        # If Opfølgningsdato is manually set, calculate opfølgningmaaned
+        # Always recalculate opfølgningmaaned based on Opfølgningsdato
         if self.Opfølgningsdato:
             # Calculate the number of months from now to Opfølgningsdato
             months_difference = (self.Opfølgningsdato - timezone.now().date()).days // 30
@@ -126,7 +122,6 @@ class Record(models.Model):
 
         # Call the original save method
         super().save(*args, **kwargs)
-
 
 
 class Comment(models.Model):
