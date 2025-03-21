@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from import_export import resources
 from django.db.models.signals import post_save
+from django.utils import timezone
 import uuid
 import os
 import unicodedata
@@ -82,6 +83,7 @@ class Record(models.Model):
     Byggemeterpris = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
     Salgssum = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
     Tabtstatus = models.CharField(max_length=30, choices=Lstatus, null=True, blank=True)
+    opfølgningmaaned = models.IntegerField(default=0, blank=True, null=True)
 
     id = models.BigAutoField(primary_key=True)
 
@@ -95,6 +97,33 @@ class Record(models.Model):
             self.areal_bm2 = ''
         if self.m2 is None:
             self.m2 = ''
+
+    def save(self, *args, **kwargs):
+        # Calculate the number of months based on Tabtstatus
+        if self.Tabtstatus:
+            months_mapping = {
+                'PRIS': 6,
+                'INGEN INTERESSE': 12,
+                'ANDEN UDVIKLER': 12,
+                'TABT OPTION': 12,
+            }
+            # Debugging: Print the current Tabtstatus
+            print(f"Current Tabtstatus: {self.Tabtstatus}")
+
+            # Get the number of months based on the current Tabtstatus
+            self.opfølgningmaaned = months_mapping.get(self.Tabtstatus, 0)
+
+            # Debugging: Print the calculated opfølgningmåned
+            print(f"Calculated opfølgningmaaned: {self.opfølgningmaaned}")
+
+            # Calculate the new Opfølgningsdato based on the current date
+            if self.opfølgningmaaned > 0:
+                self.Opfølgningsdato = timezone.now().date() + relativedelta(months=self.opfølgningmaaned)
+                # Debugging: Print the new Opfølgningsdato
+                print(f"Calculated Opfølgningsdato: {self.Opfølgningsdato}")
+
+        # Call the original save method
+        super().save(*args, **kwargs)
 
 class Comment(models.Model):
     post = models.ForeignKey(Record, related_name="comments", on_delete=models.CASCADE)
