@@ -4,7 +4,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('website', '0039_tabtstatus'),
+        ('website', '0039_record_tabtstatus'),
     ]
 
     operations = [
