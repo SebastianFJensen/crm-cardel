@@ -28,14 +28,14 @@
         <thead>
           <tr class="table-info">
             <th scope="col">Adresse</th>
-            <th scope="col">By</th>
             <th scope="col">Kommune</th>
             <th scope="col">Postnummer</th>
             <th scope="col">Region</th>
             <th scope="col">Kontaktperson</th>
             <th scope="col">m2</th>
             <th scope="col">Lead</th>
-            <th scope="col">Status</th>
+            <th scope="col">Årsag</th>
+            <th scope="col">Opfølgning</th>
             <th scope="col">Opfølgningsdato</th>
           </tr>
         </thead>
@@ -45,16 +45,16 @@
           {% if record.Status == 'Lost' %}
           <tr>
             <td><a href="{% url 'Record' record.id %}">{{ record.Adresse }}</td>
-            <td>{{ record.By }}</td>
             <td>{{ record.Kommune }}</td>
             <td>{{ record.Postnummer }}</td>
             <td>{{ record.Region }}</td>
             <td>{{ record.Kontaktperson }}</td>
             <td>{{ record.m2 }}</td>
             <td>{{ record.Lead }}</td>
-            <td>{{ record.Status }}</td>
+            <td>{{ record.Tabtstatus }}</td>
+            <td>{{ record.opfølgningmaaned}}</td>
             <td>{{ record.Opfølgningsdato|date:"d-m-Y" }}</td>
-          </tr>
+            </tr>
             {% endif %}
             {% endfor %}
           </tbody>
@@ -63,9 +63,11 @@
       </div>
     </div>
     <script>     
-      $(function () {
-        $('#table').excelTableFilter();
-      });
+        
+        $(function () {
+              $('#table').excelTableFilter();
+        });
+        
     </script>
     <style>
     .table-info th {
@@ -100,7 +102,7 @@
 </body>
 </html>
 
-
+<div class="button1"><a href="{% url 'importrecorddata' %}" class ="btn btn-primary"  type="submit" style="margin-right: 5px;" >Importer data</a>
 {% else %}
 </div>
 
