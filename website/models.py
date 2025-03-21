@@ -118,7 +118,7 @@ class Record(models.Model):
         if self.Opfølgningsdato:
             # Calculate the number of months from now to Opfølgningsdato
             months_difference = (self.Opfølgningsdato - timezone.now().date()).days // 30
-            self.opfølgningmaaned = max(months_difference, 0)  # Ensure it's not negative
+            self.opfølgningmaaned = months_difference  # Allow negative values if overdue
 
         # Call the original save method
         super().save(*args, **kwargs)
