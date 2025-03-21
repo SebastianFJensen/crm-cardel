@@ -118,11 +118,17 @@ class Record(models.Model):
                     if self.opfølgningmaaned > 0:
                         self.Opfølgningsdato = timezone.now().date() + relativedelta(months=self.opfølgningmaaned)
 
+        # If Opfølgningsdato is manually set, calculate opfølgningmaaned
+        if self.Opfølgningsdato:
+            # Calculate the number of months from now to Opfølgningsdato
+            months_difference = (self.Opfølgningsdato - timezone.now().date()).days // 30
+            self.opfølgningmaaned = max(months_difference, 0)  # Ensure it's not negative
+
         # Call the original save method
         super().save(*args, **kwargs)
 
 
-        
+
 class Comment(models.Model):
     post = models.ForeignKey(Record, related_name="comments", on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
