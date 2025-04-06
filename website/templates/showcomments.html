@@ -22,7 +22,7 @@
           {% for comment in customer_record.comments.all|dictsortreversed:"created_on" %}
             <div class="list-group-item list-group-item-action" data-is-staff="{{ comment.user.is_staff }}">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ comment.user }}</h5>
+                <h5 class="mb-1">{{ comment.user.first_name }} {{ comment.user.last_name }}</h5>
                 <small>{{ comment.created_on|date:"d-m-Y" }}</small>
                 {% if request.user == comment.user %}
                   <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#editCommentModal-{{ comment.id }}">Rediger</button>
