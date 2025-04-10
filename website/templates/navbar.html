@@ -10,49 +10,70 @@
 <body>
 
 {% if user.is_authenticated %}
+    {% if user.is_staff %}
+        <style>
+            .navbar-custom {
+                background-color: #102B25;
+                color: white;
+                height: auto;
+                width: auto;
+            }
+            .navbar-brand {
+                width: auto;
+                height: auto;
+            }
+            .vertical-line {
+                display: inline-block;
+                width: 1px;
+                height: 30px;
+                background-color: white;
+                margin-left: 10px;
+            }
+            @media screen and (min-width: 992px) {
+                .horizontal-line {
+                    display: none;
+                }
+            }
+            @media screen and (max-width: 991px) {
+                .vertical-line {
+                    display: none;
+                }
+                .horizontal-line {
+                    width: 150px;
+                    height: 0.20px;
+                    background-color: white;
+                }
+            }
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+            }
+        </style>
 
-<style>
- .navbar-custom {
-    background-color: #102B25;
-    color: white;
-  }
-  .vertical-line {
-  display: inline-block;
-  width: 1px;
-  height: 30px;
-  background-color: white;
-  margin-left: 10px;
-}
-</style>
-
-<nav class="navbar navbar-expand-lg navbar-custom">
- <!-- Other navbar content -->
-  <div class="container-fluid">
-    <a href="{% url 'prospects' %}" class="navbar-brand"><img src="{% static 'assets/CARDEL-EJD.-PROJEKT.png' %}" alt="Logo" style="width:100px;height:100px;position: relative;max-width: none;"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{% url 'home' %}">Portfølje</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{% url 'prospects' %}">Prospekter</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{% url 'lead' %}">Leads</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{% url 'archived' %}">Arkiveret</a>
-        </li>
-        <span class="vertical-line"></span>
-        <li class="nav-item">
-          <a class="nav-link active text-white ms-2" aria-current="page" href="{% url 'add_record' %}">Tilføj registrering</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active text-white ms-2" aria-current="page" href="{% url 'sommerhuse' %}">Sommerhuse</a>
-        </li>        
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <a href="{% url 'home' %}" class="navbar-brand"><img src="{% static 'assets/CARDEL-EJD.-PROJEKT.png' %}" alt="Logo" style="width:100px;height:100px;position: relative;max-width: none;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon" style="color:white"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'home' %}">Portfølje</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'prospects' %}">Prospekter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'lead' %}">Leads</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'archived' %}">Arkiveret</a>
+                        </li>
+                        <span class="vertical-line"></span>
+                        <span class="horizontal-line"></span>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white ms-2" aria-current="page" href="{% url 'add_record' %}">Tilføj registrering</a>
+                        </li>
                         <span class="horizontal-line"></span>
                         <li class="nav-item">
                             <a class="nav-link active text-white" aria-current="page" href="{% url 'logout' %}">Log ud</a>
