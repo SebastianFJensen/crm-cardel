@@ -51,48 +51,79 @@
           <a class="nav-link active text-white ms-2" aria-current="page" href="{% url 'add_record' %}">Tilføj registrering</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{% url 'logout' %}">Log ud</a>
-        </li>
-      </ul>
-      <div class="nav-item dropdown" style="margin-right: 10px;">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Generelt
-        </a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Skabeloner</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-      </div>
-      <form class="d-flex" role="search" action="{% url 'search' %}" method="get">
-        <input class="form-control me-2 text-white bg-dark" type="search" placeholder="Søg" aria-label="Søg" name="q">
-        <button class="btn btn-outline-success text-white" type="submit">Søg</button>
-      </form>
-      </div>
-  </div>
-</nav>
+          <a class="nav-link active text-white ms-2" aria-current="page" href="{% url 'sommerhuse' %}">Sommerhuse</a>
+        </li>        
+                        <span class="horizontal-line"></span>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'logout' %}">Log ud</a>
+                        </li>
+                    </ul>
+                    <div class="nav-item dropdown" style="margin-right: 10px;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Generelt
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'templates_folder' %}">Skabeloner</a></li>
+                            <li><a class="dropdown-item" href="{% url 'kommuner' %}">Almene kvoter</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                    <form class="d-flex" role="search" action="{% url 'search' %}" method="get">
+                        <input class="form-control me-2 text-white bg-dark" type="search" placeholder="Søg" aria-label="Søg" name="q">
+                        <button class="btn btn-outline-success text-white" type="submit">Søg</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    {% else %}
+        <style>
+            .navbar-custom {
+                background-color: #102B25;
+                color: white;
+            }
+        </style>
 
-         {% else %}
-<style>
- .navbar-custom {
-    background-color: #102B25;
-    color: white;
- }
-</style>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <a href="{% url 'sommerhuse' %}" class="navbar-brand"><img src="{% static 'assets/CARDEL-EJD.-PROJEKT.png' %}" alt="Logo" style="width:100px;height:100px;position: relative;max-width: none;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'sommerhuse' %}">Sommerhuse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'logout' %}">Log ud</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
+{% else %}
+    <style>
+        .navbar-custom {
+            background-color: #102B25;
+            color: white;
+        }
+    </style>
 
-         <nav class="navbar navbar-expand-lg navbar-custom">
-          <!-- Other navbar content -->
-          <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
             <a href="{% url 'home' %}" class="navbar-brand"><img src="{% static 'assets/CARDEL-EJD.-PROJEKT.png' %}" alt="Logo" style="width:100px;height:100px;position: relative;max-width: none;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="{% url 'home'%}">Log ind</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        {% endif %}
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" aria-current="page" href="{% url 'home' %}">Log ind</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endif %}

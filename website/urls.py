@@ -9,6 +9,7 @@ urlpatterns = [
     path('Arkiveret/', views.archived, name='archived'),
     path('Prospekter/', views.prospects, name='prospects'),
     path('Leads/', views.lead, name='lead'),
+    path('sommerhuse/', views.sommerhuse, name='sommerhuse'),
     path('login/', views.login_user, name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('Record/<int:pk>/', CustomerRecordView.as_view(), name='Record'),

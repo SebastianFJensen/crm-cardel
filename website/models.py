@@ -56,6 +56,22 @@ class Record(models.Model):
         ('ANDEN UDVIKLER', 'Anden Udvikler'),
         ('TABT OPTION', 'Tabt option'),
     ]
+    Kfredning = [
+        ("Vælg", "Vælg"),
+        ("Ja", "Ja"),
+        ("Nej", "Nej"),
+    ]
+
+    Sbeskyttelse = [
+        ("Vælg", "Vælg"),
+        ("Ja", "Ja"),
+        ("Nej", "Nej"),
+    ]
+
+    Projekttyper = [
+        ("Almindeligt", "Almindeligt"), 
+        ("Sommerhuse", "Sommerhuse"),
+    ]
     
     created_at = models.DateTimeField(auto_now_add=True)
     BFE_Nummer = models.CharField(max_length=20, null=True)
@@ -84,6 +100,10 @@ class Record(models.Model):
     Salgssum = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
     Tabtstatus = models.CharField(max_length=30, choices=Lstatus, null=True, blank=True)
     opfølgningmaaned = models.IntegerField(default=0, blank=True, null=True)
+    Kystfredning = models.CharField(max_length=10, choices=Kfredning, default='Vælg')
+    Strandbeskyttelse = models.CharField(max_length=10, choices=Sbeskyttelse, default='Vælg')
+    Projekttype = models.CharField(max_length=25, choices=Projekttyper, default='Almindeligt')
+
 
     id = models.BigAutoField(primary_key=True)
 

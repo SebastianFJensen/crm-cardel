@@ -114,6 +114,25 @@ def lead(request):
     records = Record.objects.order_by(ordering, '-created_at')
     return render(request, 'lead.html', {'records': records})
 
+def sommerhuse(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Du er logget ind")
+
+    ordering = Case(
+    When(Opfølgningsdato__isnull=True, then=Value('2999-12-31')),
+    default=F('Opfølgningsdato'),
+    output_field=DateField()
+    ).asc(nulls_last=False)
+
+    records = Record.objects.order_by(ordering, '-created_at')
+    return render(request, 'sommerhuse.html', {'records': records})
+
 
 def login_user (request): 
 	pass
@@ -128,7 +147,12 @@ class CustomerRecordView(View):
         if request.user.is_authenticated:
             customer_record = Record.objects.get(id=pk)
             folders = customer_record.folders.all()
-            return render(request, "Record.html", {'customer_record':customer_record, 'folders':folders})
+
+            # Check the Projekttype and render the appropriate template
+            if customer_record.Projekttype == "Sommerhuse":
+                return render(request, "Sommerhuse_record.html", {'customer_record': customer_record, 'folders': folders})
+            else:
+                return render(request, "Record.html", {'customer_record': customer_record, 'folders': folders})
         else:
             messages.success(request, "Du skal være logget ind for at se siden")
             return redirect('home')
@@ -136,11 +160,20 @@ class CustomerRecordView(View):
     def post(self, request, pk):
         if request.user.is_authenticated:
             customer_record = Record.objects.get(id=pk)
+            # Handle form submission or other logic here
             messages.success(request, "Sagen er blevet gemt")
             return redirect('Record')
         else:
             messages.success(request, "Du skal være logget ind for at se siden")
             return redirect('home')
+
+def login_user(request): 
+    pass
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, "Du er nu logget ud")
+    return redirect('home')
 
 
 def delete_record(request, pk):
