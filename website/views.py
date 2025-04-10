@@ -125,10 +125,10 @@ def sommerhuse(request):
             messages.success(request, "Du er logget ind")
 
     ordering = Case(
-    When(Opfølgningsdato__isnull=True, then=Value('2999-12-31')),
+    When(Opfølgningsdato__isnull=True, then=Value('9999-12-31')),
     default=F('Opfølgningsdato'),
     output_field=DateField()
-    ).asc(nulls_last=False)
+    ).asc()
 
     records = Record.objects.order_by(ordering, '-created_at')
     return render(request, 'sommerhuse.html', {'records': records})
