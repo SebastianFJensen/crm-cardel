@@ -147,12 +147,7 @@ class CustomerRecordView(View):
         if request.user.is_authenticated:
             customer_record = Record.objects.get(id=pk)
             folders = customer_record.folders.all()
-
-            # Check the Projekttype and render the appropriate template
-            if customer_record.Projekttype == "Sommerhuse":
-                return render(request, "Sommerhuse_record.html", {'customer_record': customer_record, 'folders': folders})
-            else:
-                return render(request, "Record.html", {'customer_record': customer_record, 'folders': folders})
+            return render(request, "Record.html", {'customer_record':customer_record, 'folders':folders})
         else:
             messages.success(request, "Du skal være logget ind for at se siden")
             return redirect('home')
@@ -160,7 +155,6 @@ class CustomerRecordView(View):
     def post(self, request, pk):
         if request.user.is_authenticated:
             customer_record = Record.objects.get(id=pk)
-            # Handle form submission or other logic here
             messages.success(request, "Sagen er blevet gemt")
             return redirect('Record')
         else:
