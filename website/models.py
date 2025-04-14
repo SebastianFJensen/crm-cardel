@@ -100,8 +100,8 @@ class Record(models.Model):
     Salgssum = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
     Tabtstatus = models.CharField(max_length=30, choices=Lstatus, null=True, blank=True)
     opfølgningmaaned = models.IntegerField(default=0, blank=True, null=True)
-    Kystfredning = models.CharField(max_length=10, choices=Kfredning, default='Vælg')
-    Strandbeskyttelse = models.CharField(max_length=10, choices=Sbeskyttelse, default='Vælg')
+    Kystfredning = models.CharField(max_length=10, choices=Kfredning, default='Vælg', null=True, blank=True)
+    Strandbeskyttelse = models.CharField(max_length=10, choices=Sbeskyttelse, default='Vælg', null=True, blank=True)
     Projekttype = models.CharField(max_length=25, choices=Projekttyper, default='Almindeligt')
 
 

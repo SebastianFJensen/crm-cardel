@@ -157,6 +157,41 @@
                   <br>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div id="Projekttype-wrapper">
+                  <label for="id_Projekttype" style="color:black; font-size: 14px;">Projekttype*</label>
+                  <select id="id_Projekttype" name="Projekttype" class="form-control">
+                    {% for choice in customer_record.Projekttyper %}
+                      <option value="{{ choice.0 }}" {% if customer_record.Projekttype == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                  </select>
+                  <br>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div id="Kystfredning-wrapper">
+                  <label for="id_Kystfredning" style="color:black; font-size: 14px;">Kystfredning</label>
+                  <select id="id_Kystfredning" name="Kystfredning" class="form-control">
+                    {% for choice in customer_record.Kfredning %}
+                      <option value="{{ choice.0 }}" {% if customer_record.Kystfredning == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                  </select>
+                  <br>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div id="Strandbeskyttelse-wrapper">
+                  <label for="id_Strandbeskyttelse" style="color:black; font-size: 14px;">Strandbeskyttelse</label>
+                  <select id="id_Strandbeskyttelse" name="Strandbeskyttelse" class="form-control">
+                    {% for choice in customer_record.Sbeskyttelse %}
+                      <option value="{{ choice.0 }}" {% if customer_record.Strandbeskyttelse == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                  </select>
+                  <br>
+                </div>
+              </div>
             </div>
               <div class="row">
                 <div class="col-md-6">
