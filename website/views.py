@@ -29,6 +29,15 @@ import os
 
 
 def home(request):
+    # Always fetch records (for unauthenticated users and staff)
+    ordering = Case(
+        When(Forfaldsdato__isnull=True, then=Value('9999-12-31')),
+        default=F('Forfaldsdato'),
+        output_field=DateField()
+    )
+    records = Record.objects.order_by(ordering)
+
+    # Handle login for unauthenticated users
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -37,13 +46,14 @@ def home(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Du er logget ind")
+            if user.is_staff:
+                return render(request, 'home.html', {'records': records})
+            else:
+                return redirect('sommerhuse')  # Redirect non-staff after login
+        else:
+            messages.error(request, "Ugyldigt brugernavn eller adgangskode")
 
-    ordering = Case(
-        When(Forfaldsdato__isnull=True, then=Value('9999-12-31')),
-        default=F('Forfaldsdato'),
-        output_field=DateField()
-    )
-    records = Record.objects.order_by(ordering)
+    # For unauthenticated users or staff, render home.html
     return render(request, 'home.html', {'records': records})
 
 def search(request):
